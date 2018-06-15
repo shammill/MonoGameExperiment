@@ -58,7 +58,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SystemSettingsLocal.resx</DependentUpon>
     </Compile>
-    <Compile Include="Models\ComboBoxItem.cs" />
+    <Compile Include="Utility\ComboBoxItem.cs" />
     <Compile Include="Settings\GameSettings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -159,7 +159,9 @@
       <LastGenOutput>SystemSettings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

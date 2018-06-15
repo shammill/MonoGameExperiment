@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Engine.Localization;
+using Engine.Utility;
 
 namespace Engine
 {
@@ -18,9 +19,11 @@ namespace Engine
         {
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            Window.AllowAltF4 = true;
             Window.Title = MainWindowLocal.WindowTitle;
             Window.AllowUserResizing = false;
             Window.IsBorderless = SystemSettings.Default.Video_IsBorderless;
+            Window.Position = SystemSettings.Default.Video_Location.ToXnaPoint();
 
             graphics = new GraphicsDeviceManager(this)
             {
@@ -31,6 +34,12 @@ namespace Engine
                 PreferMultiSampling = false,
                 PreferredDepthStencilFormat = DepthFormat.None,
                 SynchronizeWithVerticalRetrace = true,
+
+                // This tells MonoGame to not switch the mode of the graphics-card directly, but to scale the window.
+                HardwareModeSwitch = false,
+
+                SupportedOrientations = DisplayOrientation.Default,
+                GraphicsProfile = GraphicsProfile.HiDef, // need to support textures over 2048x2048? HiDef otherwise Reach. Reach DX9 vs HiDef DX10.
             };
 
             Content.RootDirectory = "Content";
