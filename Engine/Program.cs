@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Windows.Forms;
 
-namespace MonoGameExperiment
+namespace Engine
 {
     /// <summary>
     /// The main class.
@@ -13,6 +14,8 @@ namespace MonoGameExperiment
         [STAThread]
         static void Main()
         {
+            Application.Run(new SystemSettingForm());
+
             using (var game = new GameMain())
                 game.Run();
         }

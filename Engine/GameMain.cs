@@ -1,8 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Engine.Settings;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace MonoGameExperiment
+namespace Engine
 {
     /// <summary>
     /// This is the main type for your game.
@@ -17,13 +18,13 @@ namespace MonoGameExperiment
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             Window.AllowUserResizing = false;
+            Window.IsBorderless = SystemSettings.Default.Video_IsBorderless;
 
             graphics = new GraphicsDeviceManager(this)
             {
-                
-                IsFullScreen = true,
-                PreferredBackBufferWidth = 1920,
-                PreferredBackBufferHeight = 1080,
+                IsFullScreen = SystemSettings.Default.Video_IsFullscreen,
+                PreferredBackBufferWidth = SystemSettings.Default.Video_Resolution.Width,
+                PreferredBackBufferHeight = SystemSettings.Default.Video_Resolution.Height,
                 PreferredBackBufferFormat = SurfaceFormat.Color,
                 PreferMultiSampling = false,
                 PreferredDepthStencilFormat = DepthFormat.None,

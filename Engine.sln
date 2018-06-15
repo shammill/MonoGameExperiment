@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27703.2000
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGameExperiment", "MonoGameExperiment\MonoGameExperiment.csproj", "{CD805115-2C94-4AF7-AAE4-028F4F057482}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine\Engine.csproj", "{CD805115-2C94-4AF7-AAE4-028F4F057482}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
