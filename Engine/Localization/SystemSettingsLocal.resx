@@ -132,6 +132,12 @@
   <data name="Fullscreen" xml:space="preserve">
     <value>Fullscreen</value>
   </data>
+  <data name="Master" xml:space="preserve">
+    <value>Master</value>
+  </data>
+  <data name="Monitor" xml:space="preserve">
+    <value>Monitor</value>
+  </data>
   <data name="Music" xml:space="preserve">
     <value>Music</value>
   </data>
@@ -141,8 +147,14 @@
   <data name="Play" xml:space="preserve">
     <value>Play</value>
   </data>
+  <data name="Resolution" xml:space="preserve">
+    <value>Resolution</value>
+  </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
+  </data>
+  <data name="SettingsWindowTitle" xml:space="preserve">
+    <value>System Settings</value>
   </data>
   <data name="Video" xml:space="preserve">
     <value>Video</value>

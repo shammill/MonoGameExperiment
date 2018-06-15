@@ -48,10 +48,15 @@
     <Compile Include="Forms\SystemSettings.Designer.cs">
       <DependentUpon>SystemSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Localization\Local.Designer.cs">
+    <Compile Include="Localization\MainWindowLocal.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Local.resx</DependentUpon>
+      <DependentUpon>MainWindowLocal.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Localization\SystemSettingsLocal.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SystemSettingsLocal.resx</DependentUpon>
     </Compile>
     <Compile Include="Models\ComboBoxItem.cs" />
     <Compile Include="Settings\GameSettings.Designer.cs">
@@ -88,9 +93,13 @@
   <ItemGroup>
     <EmbeddedResource Include="Icon.ico" />
     <EmbeddedResource Include="Icon.bmp" />
-    <EmbeddedResource Include="Localization\Local.resx">
+    <EmbeddedResource Include="Localization\MainWindowLocal.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Local.Designer.cs</LastGenOutput>
+      <LastGenOutput>MainWindowLocal.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localization\SystemSettingsLocal.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SystemSettingsLocal.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

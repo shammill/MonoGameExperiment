@@ -22,14 +22,14 @@ namespace Engine.Localization {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Local {
+    internal class SystemSettingsLocal {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Local() {
+        internal SystemSettingsLocal() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Engine.Localization {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Engine.Localization.Local", typeof(Local).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Engine.Localization.SystemSettingsLocal", typeof(SystemSettingsLocal).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -106,6 +106,24 @@ namespace Engine.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Master.
+        /// </summary>
+        internal static string Master {
+            get {
+                return ResourceManager.GetString("Master", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monitor.
+        /// </summary>
+        internal static string Monitor {
+            get {
+                return ResourceManager.GetString("Monitor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Music.
         /// </summary>
         internal static string Music {
@@ -133,11 +151,29 @@ namespace Engine.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resolution.
+        /// </summary>
+        internal static string Resolution {
+            get {
+                return ResourceManager.GetString("Resolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         internal static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System Settings.
+        /// </summary>
+        internal static string SettingsWindowTitle {
+            get {
+                return ResourceManager.GetString("SettingsWindowTitle", resourceCulture);
             }
         }
         

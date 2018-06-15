@@ -1,4 +1,6 @@
-﻿namespace Engine
+﻿using Engine.Localization;
+
+namespace Engine
 {
     partial class SystemSettingForm
     {
@@ -62,7 +64,7 @@
             this.btnPlay.Name = "btnPlay";
             this.btnPlay.Size = new System.Drawing.Size(75, 25);
             this.btnPlay.TabIndex = 6;
-            this.btnPlay.Text = "Play";
+            this.btnPlay.Text = SystemSettingsLocal.Play;
             this.btnPlay.UseVisualStyleBackColor = true;
             this.btnPlay.Click += new System.EventHandler(this.btnClose_Click);
             // 
@@ -84,7 +86,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(73, 13);
             this.label1.TabIndex = 11;
-            this.label1.Text = "Music Volume";
+            this.label1.Text = SystemSettingsLocal.Music;
             // 
             // AudioGroup
             // 
@@ -99,7 +101,7 @@
             this.AudioGroup.Size = new System.Drawing.Size(419, 165);
             this.AudioGroup.TabIndex = 14;
             this.AudioGroup.TabStop = false;
-            this.AudioGroup.Text = "Audio";
+            this.AudioGroup.Text = SystemSettingsLocal.Audio;
             // 
             // EffectsVolumeSlider
             // 
@@ -119,7 +121,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(78, 13);
             this.label2.TabIndex = 17;
-            this.label2.Text = "Effects Volume";
+            this.label2.Text = SystemSettingsLocal.Effects;
             // 
             // MasterVolumeSlider
             // 
@@ -139,7 +141,7 @@
             this.lblBackgroundAlpha.Name = "lblBackgroundAlpha";
             this.lblBackgroundAlpha.Size = new System.Drawing.Size(77, 13);
             this.lblBackgroundAlpha.TabIndex = 15;
-            this.lblBackgroundAlpha.Text = "Master Volume";
+            this.lblBackgroundAlpha.Text = SystemSettingsLocal.Master;
             // 
             // VideoGroup
             // 
@@ -154,7 +156,7 @@
             this.VideoGroup.Size = new System.Drawing.Size(419, 157);
             this.VideoGroup.TabIndex = 15;
             this.VideoGroup.TabStop = false;
-            this.VideoGroup.Text = "Video";
+            this.VideoGroup.Text = SystemSettingsLocal.Video;
             // 
             // FullscreenCombo
             // 
@@ -173,7 +175,7 @@
             this.FullscreenLabel.Name = "FullscreenLabel";
             this.FullscreenLabel.Size = new System.Drawing.Size(111, 13);
             this.FullscreenLabel.TabIndex = 22;
-            this.FullscreenLabel.Text = "Fullscreen/Windowed";
+            this.FullscreenLabel.Text = SystemSettingsLocal.Fullscreen + "/" + SystemSettingsLocal.Windowed;
             // 
             // label4
             // 
@@ -182,7 +184,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(94, 13);
             this.label4.TabIndex = 20;
-            this.label4.Text = "Screen Resolution";
+            this.label4.Text = SystemSettingsLocal.Resolution;
             // 
             // ResolutionCombo
             // 
@@ -201,7 +203,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(41, 13);
             this.label3.TabIndex = 18;
-            this.label3.Text = "Screen";
+            this.label3.Text = SystemSettingsLocal.Monitor;
             // 
             // MonitorCombo
             // 
@@ -228,7 +230,7 @@
             this.Name = "SystemSettingForm";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Jigsaw Engine - System Settings";
+            this.Text = SystemSettingsLocal.SettingsWindowTitle;
             ((System.ComponentModel.ISupportInitialize)(this.MusicVolumeSlider)).EndInit();
             this.AudioGroup.ResumeLayout(false);
             this.AudioGroup.PerformLayout();

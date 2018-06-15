@@ -37,7 +37,7 @@ namespace Engine.Utility.ScreenModels
     {
         public Fullscreen()
         {
-            Name = Local.Fullscreen;
+            Name = SystemSettingsLocal.Fullscreen;
             IsFullscreen = true;
             IsBorderless = true;
         }
@@ -47,7 +47,7 @@ namespace Engine.Utility.ScreenModels
     {
         public Windowed()
         {
-            Name = Local.Windowed;
+            Name = SystemSettingsLocal.Windowed;
             IsFullscreen = false;
             IsBorderless = false;
         }
@@ -57,7 +57,7 @@ namespace Engine.Utility.ScreenModels
     {
         public BorderlessWindow()
         {
-            Name = Local.BorderlessWindow;
+            Name = SystemSettingsLocal.BorderlessWindow;
             IsFullscreen = false;
             IsBorderless = true;
         }

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Engine.Localization;
 
 namespace Engine
 {
@@ -17,6 +18,7 @@ namespace Engine
         {
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            Window.Title = MainWindowLocal.WindowTitle;
             Window.AllowUserResizing = false;
             Window.IsBorderless = SystemSettings.Default.Video_IsBorderless;
 

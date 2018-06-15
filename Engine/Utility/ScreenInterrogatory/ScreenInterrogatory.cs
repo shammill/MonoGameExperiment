@@ -5,6 +5,8 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Engine.Localization;
+using Engine.Settings;
 using Engine.Utility.ScreenModels;
 
 namespace Engine.Utility.ScreenInterrogatory
@@ -416,13 +418,12 @@ namespace Engine.Utility.ScreenInterrogatory
             return sizes;
         }
 
-        //private const int MinimumHeight = 600;
-        //private const int MinimumWidth = 800;
         private const int MinimumColour = 256;
-        private const int MinimumHeight = 1080;
-        private const int MinimumWidth = 1920;
+        private static int MinimumHeight = SystemSettings.Default.Video_MinimumSupportedResolution.Height;
+        private static int MinimumWidth = SystemSettings.Default.Video_MinimumSupportedResolution.Width;
         private static bool IsReasonableDisplayResolution(DEVMODE vDevMode)
         {
+            //todo: Enforce certain aspect ratios. Portrait monitors, etc.
             return (vDevMode.dmPelsHeight >= MinimumHeight && vDevMode.dmPelsWidth >= MinimumWidth);
         }
 
@@ -441,7 +442,7 @@ namespace Engine.Utility.ScreenInterrogatory
                 monitor.Id = index;
                 monitor.FriendlyName = screen.DeviceFriendlyName().Trim();
                 if (monitor.FriendlyName.IsNullOrEmpty())
-                    monitor.FriendlyName = "Generic PnP Monitor";
+                    monitor.FriendlyName = SystemSettingsLocal.DefaultMonitorName;
                 monitor.Resolutions = screen.GetDisplayResolutions();
                 monitor.Resolutions = monitor.Resolutions.OrderByDescending(x => x.Width).ToList();
                 monitor.CurrentResolution = screen.Bounds.Size;

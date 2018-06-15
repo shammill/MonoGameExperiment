@@ -142,5 +142,14 @@ namespace Engine.Settings {
                 this["Video_IsBorderless"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1024, 768")]
+        public global::System.Drawing.Size Video_MinimumSupportedResolution {
+            get {
+                return ((global::System.Drawing.Size)(this["Video_MinimumSupportedResolution"]));
+            }
+        }
     }
 }

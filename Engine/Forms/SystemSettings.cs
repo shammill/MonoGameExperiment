@@ -15,12 +15,9 @@ namespace Engine
     {
         private List<Monitor> Monitors = new List<Monitor>();
         private List<WindowOption> WindowOptions = new List<WindowOption>() { new Fullscreen(), new Windowed(), new BorderlessWindow() };
-        //private DeviceManager Device;
-
 
         public SystemSettingForm()
         {
-            //Device = device;
             InitializeComponent();
             PopulateSystemMonitorInformation();
 
@@ -48,7 +45,7 @@ namespace Engine
         {
             if (Monitors.Count == 0)
             {
-                var newMonitor = new Monitor("1") { Id = 1, FriendlyName = Local.DefaultMonitorName };
+                var newMonitor = new Monitor("1") { Id = 1, FriendlyName = SystemSettingsLocal.DefaultMonitorName };
             }
 
             foreach (var monitor in Monitors)
@@ -69,7 +66,7 @@ namespace Engine
 
             if (ResolutionCombo.Items.Count == 0)
             {
-                ResolutionCombo.Items.Add(new ComboBoxItem() { Text = "No supported resolutions.", Value = new Size(0, 0) });
+                ResolutionCombo.Items.Add(new ComboBoxItem() { Text = SystemSettingsLocal.NoSupportedResolutions, Value = new Size(0, 0) });
             }
         }
 
@@ -95,7 +92,6 @@ namespace Engine
                     MonitorCombo.SelectedItem = item;
                 }
             }
-
         }
 
         public bool MonitorComboContainsValue(string value)
@@ -200,7 +196,6 @@ namespace Engine
         {
             var chosenScreen = Screen.AllScreens.Where(x => x.DeviceName == SystemSettings.Default.Video_Monitor).FirstOrDefault();
 
-
             SystemSettings.Default.Video_Location = chosenScreen.Bounds.Location;
             SystemSettings.Default.Save();
             SystemSettings.Default.Reload();
@@ -208,9 +203,6 @@ namespace Engine
 
             using (var game = new GameMain())
                 game.Run();
-
-            //MainMenuForm mainMenuForm = new MainMenuForm(Device);
-            //mainMenuForm.Show();
         }
     }
 }
