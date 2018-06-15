@@ -423,8 +423,7 @@ namespace Engine.Utility.ScreenInterrogatory
         private static int MinimumWidth = SystemSettings.Default.Video_MinimumSupportedResolution.Width;
         private static bool IsReasonableDisplayResolution(DEVMODE vDevMode)
         {
-            //todo: Enforce certain aspect ratios. Portrait monitors, etc.
-            return (vDevMode.dmPelsHeight >= MinimumHeight && vDevMode.dmPelsWidth >= MinimumWidth);
+            return (vDevMode.dmPelsHeight >= MinimumHeight && vDevMode.dmPelsWidth >= MinimumWidth && vDevMode.dmPelsWidth >= vDevMode.dmPelsHeight);
         }
 
         private static bool SupportsNormalColour(DEVMODE vDevMode)
