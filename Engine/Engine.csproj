@@ -72,8 +72,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>SystemSettings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Utility\Extensions\EnumHelper.cs" />
-    <Compile Include="Utility\Extensions\RandomHelper.cs" />
+    <Compile Include="Utility\Extensions\EnumExtensions.cs" />
+    <Compile Include="Utility\Extensions\PointExtensions.cs" />
+    <Compile Include="Utility\RandomHelper.cs" />
     <Compile Include="Utility\Extensions\RectangleExtensions.cs" />
     <Compile Include="Utility\Extensions\SizeExtensions.cs" />
     <Compile Include="Utility\Extensions\StringExtensions.cs" />
@@ -150,6 +151,7 @@
     </None>
     <None Include="app.config" />
     <None Include="app.manifest" />
+    <None Include="packages.config" />
     <None Include="Settings\GameSettings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>GameSettings.Designer.cs</LastGenOutput>
@@ -160,7 +162,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
+    <Folder Include="Entities\" />
+    <Folder Include="Managers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
