@@ -58,6 +58,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SystemSettingsLocal.resx</DependentUpon>
     </Compile>
+    <Compile Include="Managers\GameManager.cs" />
     <Compile Include="Managers\MusicManager.cs" />
     <Compile Include="Managers\SoundManager.cs" />
     <Compile Include="Registrations\Register.cs" />
