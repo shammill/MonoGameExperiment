@@ -10,6 +10,10 @@ namespace Engine.Screens
         T FindScreen<T>() where T : Screen;
     }
 
+    /// <summary>
+    /// ScreenManager is responsible for holding a list of screens, updating and drawing them.
+    /// Also sets visibility on screens.
+    /// </summary>
     public class ScreenManager : DrawableGameComponent, IScreenManager
     {
         private readonly List<Screen> _screens;

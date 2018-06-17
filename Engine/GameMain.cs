@@ -22,7 +22,7 @@ namespace Engine
         ScreenManager screenManager;
         SoundEffectManager soundEffectManager;
         MusicManager musicManger;
-        Texture2D image01;
+        GameManager gameManager;
 
         public GameMain()
         {
@@ -59,6 +59,9 @@ namespace Engine
             screenManager = new ScreenManager(this);
             Components.Add(screenManager);
 
+            gameManager = new GameManager(this);
+            Components.Add(gameManager);
+
             Content.RootDirectory = "Content";
         }
 
@@ -85,8 +88,8 @@ namespace Engine
         protected override void LoadContent()
         {
             Register.LoadTextures(Content);
-            Register.LoadSoundEffects(Content);
-            Register.LoadMusic(Content);
+            Register.LoadSoundEffects(Content, soundEffectManager);
+            Register.LoadMusic(Content, musicManger);
             //var _sprite = new Sprite(image01)
             //{
             //    Position = viewportAdapter.Center.ToVector2()

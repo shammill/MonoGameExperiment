@@ -9,6 +9,9 @@ using Engine.Utility.Extensions;
 
 namespace Engine.Managers
 {
+    /// <summary>
+    /// Holds a SongCollection and is responsible for accessing the MediaPlayer to play songs
+    /// </summary>
     public class MusicManager : GameComponent
     {
         SongCollection songs;
@@ -18,7 +21,7 @@ namespace Engine.Managers
             MediaPlayer.Volume = Settings.SystemSettings.Default.Audio_MusicVolume.PercentageToFloat();
         }
 
-        public void AddSong(Song song)
+        public void Register(Song song)
         {
             songs.Add(song);
         }

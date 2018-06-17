@@ -1,4 +1,5 @@
-﻿using Engine.Screens;
+﻿using Engine.Managers;
+using Engine.Screens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -26,14 +27,15 @@ namespace Engine.Registrations
             var image01 = Content.Load<Texture2D>("01");
         }
 
-        public static void LoadSoundEffects(ContentManager Content)
+        public static void LoadSoundEffects(ContentManager Content, SoundEffectManager soundEffectManager)
         {
-            var soundEffect = Content.Load<SoundEffect>("01");
+            soundEffectManager.Register(Content.Load<SoundEffect>("01"));
+
         }
 
-        public static void LoadMusic(ContentManager Content)
+        public static void LoadMusic(ContentManager Content, MusicManager musicManager)
         {
-            var song = Content.Load<Song>("01");
+            musicManager.Register(Content.Load<Song>("01"));
         }
     }
 }

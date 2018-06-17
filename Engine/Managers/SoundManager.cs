@@ -8,12 +8,11 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace Engine.Managers
 {
-    public interface ISoundEffectManager
-    {
-
-    }
-
-    public class SoundEffectManager : GameComponent, ISoundEffectManager
+    /// <summary>
+    /// Holds a list of SoundEffect resources and creates SoundEffectInstances
+    /// Also disposes SoundEffectInstances when they're done playing.
+    /// </summary>
+    public class SoundEffectManager : GameComponent
     {
         Dictionary<string, SoundEffect> Sounds = new Dictionary<string, SoundEffect>();
         List<SoundEffectInstance> SoundEffectInstances = new List<SoundEffectInstance>();
@@ -38,6 +37,17 @@ namespace Engine.Managers
             return sound;
         }
 
+        public SoundEffectInstance PlaySoundEffect(string soundName)
+        {
+            SoundEffect sound;
+            Sounds.TryGetValue(soundName, out sound);
+
+            SoundEffectInstance soundEffectInsatance = sound.CreateInstance();
+            soundEffectInsatance.Play();
+
+            return soundEffectInsatance;
+        }
+
         public SoundEffectInstance PlaySoundEffect(SoundEffect sound)
         {
             SoundEffectInstance soundEffectInsatance = sound.CreateInstance();
@@ -58,7 +68,7 @@ namespace Engine.Managers
         {
             foreach(var soundEffectInsatance in SoundEffectInstances)
             {
-                if (soundEffectInsatance.State == SoundState.Stopped);
+                if (soundEffectInsatance.State == SoundState.Stopped)
                 {
                     soundEffectInsatance.Dispose();
                 }
