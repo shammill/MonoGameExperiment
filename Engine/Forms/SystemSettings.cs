@@ -200,9 +200,7 @@ namespace Engine
             SystemSettings.Default.Save();
             SystemSettings.Default.Reload();
             this.Hide();
-
-            using (var game = new GameMain())
-                game.Run();
+            this.Close();
         }
     }
 }

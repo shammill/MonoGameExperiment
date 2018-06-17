@@ -2,9 +2,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 using Engine.Localization;
 using Engine.Utility;
 using Engine.Screens;
+using Engine.Managers;
+using Engine.Registrations;
 
 namespace Engine
 {
@@ -15,7 +19,10 @@ namespace Engine
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        
+        ScreenManager screenManager;
+        SoundEffectManager soundEffectManager;
+        MusicManager musicManger;
+
         public GameMain()
         {
             Content.RootDirectory = "Content";
@@ -24,7 +31,6 @@ namespace Engine
             Window.Title = MainWindowLocal.WindowTitle;
             Window.AllowUserResizing = false;
             Window.IsBorderless = SystemSettings.Default.Video_IsBorderless;
-            //Window.Position = SystemSettings.Default.Video_Location.ToXnaPoint();
 
             graphics = new GraphicsDeviceManager(this)
             {
@@ -32,7 +38,7 @@ namespace Engine
                 PreferredBackBufferWidth = SystemSettings.Default.Video_Resolution.Width,
                 PreferredBackBufferHeight = SystemSettings.Default.Video_Resolution.Height,
                 PreferredBackBufferFormat = SurfaceFormat.Color,
-                PreferMultiSampling = false,
+                PreferMultiSampling = false, // Enables anti-aliasing.
                 PreferredDepthStencilFormat = DepthFormat.None,
                 SynchronizeWithVerticalRetrace = true,
 
@@ -43,9 +49,18 @@ namespace Engine
                 GraphicsProfile = GraphicsProfile.HiDef, // need to support textures over 2048x2048? HiDef otherwise Reach. Reach DX9 vs HiDef DX10.
             };
 
-            ScreenGameComponent screenGameComponent = new ScreenGameComponent(this);
-            screenGameComponent.Register(new MyScreen());
-            Components.Add(screenGameComponent);
+            soundEffectManager = new SoundEffectManager(this);
+            Components.Add(soundEffectManager);
+
+            musicManger = new MusicManager(this);
+            Components.Add(musicManger);
+
+            screenManager = new ScreenManager(this);
+            Components.Add(screenManager);
+
+
+
+
 
             Content.RootDirectory = "Content";
         }
@@ -58,6 +73,7 @@ namespace Engine
         /// </summary>
         protected override void Initialize()
         {
+            Register.Screens(screenManager, this.Services);
             // TODO: Add your initialization logic here
 
             base.Initialize();
@@ -71,7 +87,11 @@ namespace Engine
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            var image01 = Content.Load<Texture2D>("01.jpg");
+            //var _sprite = new Sprite(image01)
+            //{
+            //    Position = viewportAdapter.Center.ToVector2()
+            //};
             // TODO: use this.Content to load your game content here
         }
 
@@ -97,6 +117,8 @@ namespace Engine
             // TODO: Add your update logic here
 
             base.Update(gameTime);
+            screenManager.Update(gameTime);
+            //currentScreen?.Update(gameTime);
         }
 
         /// <summary>
@@ -110,6 +132,8 @@ namespace Engine
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
+            screenManager.Draw(gameTime);
+            //currentScreen?.Draw(gameTime);
         }
     }
 }

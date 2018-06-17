@@ -10,19 +10,17 @@ namespace Engine.Screens
         T FindScreen<T>() where T : Screen;
     }
 
-    public class ScreenGameComponent : DrawableGameComponent, IScreenManager
+    public class ScreenManager : DrawableGameComponent, IScreenManager
     {
         private readonly List<Screen> _screens;
 
-        public ScreenGameComponent(Game game, IEnumerable<Screen> screens)
-            : this(game)
+        public ScreenManager(Game game, IEnumerable<Screen> screens) : this(game)
         {
             foreach (var screen in screens)
                 Register(screen);
         }
 
-        public ScreenGameComponent(Game game)
-            : base(game)
+        public ScreenManager(Game game) : base(game)
         {
             _screens = new List<Screen>();
         }
@@ -37,8 +35,7 @@ namespace Engine.Screens
             return screen;
         }
 
-        public T Register<T>(T screen)
-            where T : Screen
+        public T Register<T>(T screen)  where T : Screen
         {
             screen.ScreenManager = this;
             _screens.Add(screen);

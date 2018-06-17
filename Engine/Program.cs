@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Engine.Utility.ScreenModels;
+using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Engine
@@ -14,8 +16,10 @@ namespace Engine
         [STAThread]
         static void Main()
         {
+            // Winforms Launcher for configuring system settings
             Application.Run(new SystemSettingForm());
 
+            // When SysSettings closes, run game main
             using (var game = new GameMain())
                 game.Run();
         }
