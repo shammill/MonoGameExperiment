@@ -22,6 +22,7 @@ namespace Engine
         ScreenManager screenManager;
         SoundEffectManager soundEffectManager;
         MusicManager musicManger;
+        Texture2D image01;
 
         public GameMain()
         {
@@ -58,10 +59,6 @@ namespace Engine
             screenManager = new ScreenManager(this);
             Components.Add(screenManager);
 
-
-
-
-
             Content.RootDirectory = "Content";
         }
 
@@ -74,7 +71,9 @@ namespace Engine
         protected override void Initialize()
         {
             Register.Screens(screenManager, this.Services);
-            // TODO: Add your initialization logic here
+
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);
 
             base.Initialize();
         }
@@ -85,14 +84,13 @@ namespace Engine
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            var image01 = Content.Load<Texture2D>("01.jpg");
+            Register.LoadTextures(Content);
+            Register.LoadSoundEffects(Content);
+            Register.LoadMusic(Content);
             //var _sprite = new Sprite(image01)
             //{
             //    Position = viewportAdapter.Center.ToVector2()
             //};
-            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -101,7 +99,7 @@ namespace Engine
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+
         }
 
         /// <summary>
@@ -114,11 +112,8 @@ namespace Engine
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-
             base.Update(gameTime);
             screenManager.Update(gameTime);
-            //currentScreen?.Update(gameTime);
         }
 
         /// <summary>
@@ -127,13 +122,20 @@ namespace Engine
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            var matrix = Matrix.CreateScale(
+                           (float)GraphicsDevice.Viewport.Width / 1920,
+                           (float)GraphicsDevice.Viewport.Width / 1920,
+                           1f);
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
 
             base.Draw(gameTime);
             screenManager.Draw(gameTime);
-            //currentScreen?.Draw(gameTime);
+
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, matrix);
+
+            //spriteBatch.DrawString(font, "test", new Vector2(100, 150), Color.Black);
+            spriteBatch.Draw(image01, new Rectangle(0, 0, 1980, 1080), Color.White);
+            spriteBatch.End();
         }
     }
 }

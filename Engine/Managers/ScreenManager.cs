@@ -71,6 +71,11 @@ namespace Engine.Screens
                 screen.UnloadContent();
         }
 
+        public void SetVisibility(Screen screen, bool IsVisible)
+        {
+            screen.IsVisible = IsVisible;
+        }
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
