@@ -60,7 +60,7 @@
     </Compile>
     <Compile Include="Managers\MusicManager.cs" />
     <Compile Include="Managers\SoundManager.cs" />
-    <Compile Include="Registrations\RegisterScreens.cs" />
+    <Compile Include="Registrations\Register.cs" />
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\MainMenuScreen.cs" />
     <Compile Include="Screens\Screen.cs" />
@@ -81,7 +81,9 @@
       <DependentUpon>SystemSettings.settings</DependentUpon>
     </Compile>
     <Compile Include="Utility\Extensions\EnumExtensions.cs" />
+    <Compile Include="Utility\Extensions\IntExtensions.cs" />
     <Compile Include="Utility\Extensions\PointExtensions.cs" />
+    <Compile Include="Utility\Extensions\TimeSpanExtensions.cs" />
     <Compile Include="Utility\RandomHelper.cs" />
     <Compile Include="Utility\Extensions\RectangleExtensions.cs" />
     <Compile Include="Utility\Extensions\SizeExtensions.cs" />
