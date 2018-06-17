@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Engine.Localization;
 using Engine.Utility;
+using Engine.Screens;
 
 namespace Engine
 {
@@ -23,7 +24,7 @@ namespace Engine
             Window.Title = MainWindowLocal.WindowTitle;
             Window.AllowUserResizing = false;
             Window.IsBorderless = SystemSettings.Default.Video_IsBorderless;
-            Window.Position = SystemSettings.Default.Video_Location.ToXnaPoint();
+            //Window.Position = SystemSettings.Default.Video_Location.ToXnaPoint();
 
             graphics = new GraphicsDeviceManager(this)
             {
@@ -41,6 +42,10 @@ namespace Engine
                 SupportedOrientations = DisplayOrientation.Default,
                 GraphicsProfile = GraphicsProfile.HiDef, // need to support textures over 2048x2048? HiDef otherwise Reach. Reach DX9 vs HiDef DX10.
             };
+
+            ScreenGameComponent screenGameComponent = new ScreenGameComponent(this);
+            screenGameComponent.Register(new MyScreen());
+            Components.Add(screenGameComponent);
 
             Content.RootDirectory = "Content";
         }
