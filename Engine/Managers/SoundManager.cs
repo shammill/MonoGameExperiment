@@ -50,10 +50,11 @@ namespace Engine.Managers
 
         public SoundEffectInstance PlaySoundEffect(SoundEffect sound)
         {
-            SoundEffectInstance soundEffectInsatance = sound.CreateInstance();
-            soundEffectInsatance.Play();
+            SoundEffectInstance soundEffectInstance = sound.CreateInstance();
+            soundEffectInstance.Play();
+            SoundEffectInstances.Add(soundEffectInstance);
 
-            return soundEffectInsatance;
+            return soundEffectInstance;
         }
 
         public SoundEffectInstance StopSoundInstance(SoundEffectInstance sound)
