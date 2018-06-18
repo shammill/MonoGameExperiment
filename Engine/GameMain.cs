@@ -105,43 +105,10 @@ namespace Engine
         /// </summary>
         protected override void UnloadContent()
         {
+            Content.Unload();
+            Content.Dispose();
 
+            base.UnloadContent();
         }
-
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        //protected override void Update(GameTime gameTime)
-        //{
-        //    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-        //        Exit();
-
-        //    base.Update(gameTime);
-        //    screenManager.Update(gameTime);
-        //}
-
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        //protected override void Draw(GameTime gameTime)
-        //{
-        //    var matrix = Matrix.CreateScale(
-        //                   (float)GraphicsDevice.Viewport.Width / 1920,
-        //                   (float)GraphicsDevice.Viewport.Width / 1920,
-        //                   1f);
-        //    GraphicsDevice.Clear(Color.CornflowerBlue);
-
-        //    base.Draw(gameTime);
-        //    screenManager.Draw(gameTime);
-
-        //    spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, matrix);
-
-        //    //spriteBatch.DrawString(font, "test", new Vector2(100, 150), Color.Black);
-        //    //spriteBatch.Draw(image01, new Rectangle(0, 0, 1980, 1080), Color.White);
-        //    spriteBatch.End();
-        //}
     }
 }

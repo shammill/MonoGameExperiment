@@ -18,8 +18,9 @@ namespace Engine.Screens
 
         public SplashScreen(Game game) : base(game)
         {
-
+            
         }
+
         public override void LoadContent()
         {
             base.LoadContent();
@@ -36,13 +37,12 @@ namespace Engine.Screens
                 Game.Exit();
 
             if (mouseState.LeftButton == ButtonState.Pressed || keyboardState.WasAnyKeyJustDown())
-                ScreenManager.LoadScreen(new MainMenuScreen(Game), new FadeTransition(GraphicsDevice, Color.Black, 0.5f));
+                ScreenManager.LoadScreen(new MainMenuScreen(Game), new FadeTransition(GraphicsDevice, Color.Black, 2f));
         }
 
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Magenta);
-
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             _spriteBatch.Draw(_background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
             _spriteBatch.End();
