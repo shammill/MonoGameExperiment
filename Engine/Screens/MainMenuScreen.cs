@@ -12,30 +12,23 @@ namespace Engine.Screens
 {
     public class MainMenuScreen : Screen
     {
-        private readonly IServiceProvider _serviceProvider;
         private SpriteBatch _spriteBatch;
-        protected ContentManager Content { get; private set; }
         //protected BitmapFont Font { get; private set; }
 
-        public MainMenuScreen(IServiceProvider serviceProvider)
+        public MainMenuScreen(Game game) : base(game)
         {
-            _serviceProvider = serviceProvider;
+
         }
 
         public override void Initialize()
         {
             base.Initialize();
-
-            Content = new ContentManager(_serviceProvider, "Content");
         }
 
         public override void LoadContent()
         {
             base.LoadContent();
-
-            var graphicsDeviceService = (IGraphicsDeviceService)_serviceProvider.GetService(typeof(IGraphicsDeviceService));
-
-            _spriteBatch = new SpriteBatch(graphicsDeviceService.GraphicsDevice);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
             //Font = Content.Load<BitmapFont>("Fonts/montserrat-32");
         }
 
@@ -44,8 +37,6 @@ namespace Engine.Screens
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
-
             var mouseState = Mouse.GetState();
             var isPressed = mouseState.LeftButton == ButtonState.Released && _previousState.LeftButton == ButtonState.Pressed;
 
@@ -67,8 +58,6 @@ namespace Engine.Screens
 
         public override void Draw(GameTime gameTime)
         {
-            base.Draw(gameTime);
-
             _spriteBatch.Begin();
 
             //foreach (var menuItem in MenuItems)

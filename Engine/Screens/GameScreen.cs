@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
 namespace Engine.Screens
 {
@@ -12,9 +13,19 @@ namespace Engine.Screens
         private readonly IServiceProvider _serviceProvider;
         private SpriteBatch _spriteBatch;
 
-        public GameScreen(IServiceProvider serviceProvider)
+        public GameScreen(Game game) : base(game)
         {
-            this._serviceProvider = serviceProvider;
+            
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            throw new NotImplementedException();
         }
     }
 }

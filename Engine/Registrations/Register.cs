@@ -17,9 +17,9 @@ namespace Engine.Registrations
     {
         public static void Screens(ScreenManager screenManger, IServiceProvider serviceProvider)
         {
-            screenManger.Register(new SplashScreen(serviceProvider));
-            screenManger.Register(new MainMenuScreen(serviceProvider));
-            screenManger.Register(new GameScreen(serviceProvider));
+            //screenManger.Register(new SplashScreen(serviceProvider));
+            //screenManger.Register(new MainMenuScreen(serviceProvider));
+            //screenManger.Register(new GameScreen(serviceProvider));
         }
 
         public static void LoadTextures(ContentManager Content)
@@ -29,13 +29,13 @@ namespace Engine.Registrations
 
         public static void LoadSoundEffects(ContentManager Content, SoundEffectManager soundEffectManager)
         {
-            soundEffectManager.Register(Content.Load<SoundEffect>("01"));
+            //soundEffectManager.Register(Content.Load<SoundEffect>("01"));
 
         }
 
         public static void LoadMusic(ContentManager Content, MusicManager musicManager)
         {
-            musicManager.Register(Content.Load<Song>("01"));
+            //musicManager.Register(Content.Load<Song>("01"));
         }
     }
 }

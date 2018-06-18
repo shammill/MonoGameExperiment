@@ -42,12 +42,31 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Components\SimpleDrawableGameComponent.cs" />
+    <Compile Include="Components\SimpleGameComponent.cs" />
     <Compile Include="Forms\SystemSettings.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\SystemSettings.Designer.cs">
       <DependentUpon>SystemSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Graphics\BoundingRectangle.cs" />
+    <Compile Include="Graphics\CircleF.cs" />
+    <Compile Include="Graphics\PrimativesHelper.cs" />
+    <Compile Include="Graphics\ShapeExtensions.cs" />
+    <Compile Include="Graphics\ShapeF.cs" />
+    <Compile Include="Graphics\Matrix2.cs" />
+    <Compile Include="Graphics\Point2.cs" />
+    <Compile Include="Graphics\RectangleF.cs" />
+    <Compile Include="Graphics\Shapes\Polygon.cs" />
+    <Compile Include="Graphics\Shapes\PolyLine.cs" />
+    <Compile Include="Graphics\Size2.cs" />
+    <Compile Include="Graphics\Vector2Extensions.cs" />
+    <Compile Include="Input\KeyboardExtended.cs" />
+    <Compile Include="Input\KeyboardStateExtended.cs" />
+    <Compile Include="Input\MouseButton.cs" />
+    <Compile Include="Input\MouseExtended.cs" />
+    <Compile Include="Input\MouseStateExtended.cs" />
     <Compile Include="Localization\MainWindowLocal.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -67,6 +86,9 @@
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Managers\ScreenManager.cs" />
     <Compile Include="Screens\SplashScreen.cs" />
+    <Compile Include="Screens\Transitions\ExpandTransition.cs" />
+    <Compile Include="Screens\Transitions\FadeTransition.cs" />
+    <Compile Include="Screens\Transitions\Transition.cs" />
     <Compile Include="Utility\ComboBoxItem.cs" />
     <Compile Include="Settings\GameSettings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -82,9 +104,11 @@
       <DependentUpon>SystemSettings.settings</DependentUpon>
     </Compile>
     <Compile Include="Utility\Extensions\EnumExtensions.cs" />
+    <Compile Include="Utility\Extensions\GameTimeExtensions.cs" />
     <Compile Include="Utility\Extensions\IntExtensions.cs" />
     <Compile Include="Utility\Extensions\PointExtensions.cs" />
     <Compile Include="Utility\Extensions\TimeSpanExtensions.cs" />
+    <Compile Include="Utility\IEquatableByRef.cs" />
     <Compile Include="Utility\RandomHelper.cs" />
     <Compile Include="Utility\Extensions\RectangleExtensions.cs" />
     <Compile Include="Utility\Extensions\SizeExtensions.cs" />
@@ -99,6 +123,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -174,6 +199,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entities\" />
+    <Folder Include="Graphics\Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

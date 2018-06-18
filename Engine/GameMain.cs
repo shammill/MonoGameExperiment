@@ -9,6 +9,7 @@ using Engine.Utility;
 using Engine.Screens;
 using Engine.Managers;
 using Engine.Registrations;
+using Engine.Screens.Transitions;
 
 namespace Engine
 {
@@ -56,7 +57,7 @@ namespace Engine
             musicManger = new MusicManager(this);
             Components.Add(musicManger);
 
-            screenManager = new ScreenManager(this);
+            screenManager = new ScreenManager();
             Components.Add(screenManager);
 
             gameManager = new GameManager(this);
@@ -94,6 +95,8 @@ namespace Engine
             //{
             //    Position = viewportAdapter.Center.ToVector2()
             //};
+
+            screenManager.LoadScreen(new SplashScreen(this), new FadeTransition(GraphicsDevice, Color.Black, 0.5f));
         }
 
         /// <summary>
@@ -110,35 +113,35 @@ namespace Engine
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Update(GameTime gameTime)
-        {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+        //protected override void Update(GameTime gameTime)
+        //{
+        //    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+        //        Exit();
 
-            base.Update(gameTime);
-            screenManager.Update(gameTime);
-        }
+        //    base.Update(gameTime);
+        //    screenManager.Update(gameTime);
+        //}
 
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Draw(GameTime gameTime)
-        {
-            var matrix = Matrix.CreateScale(
-                           (float)GraphicsDevice.Viewport.Width / 1920,
-                           (float)GraphicsDevice.Viewport.Width / 1920,
-                           1f);
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+        //protected override void Draw(GameTime gameTime)
+        //{
+        //    var matrix = Matrix.CreateScale(
+        //                   (float)GraphicsDevice.Viewport.Width / 1920,
+        //                   (float)GraphicsDevice.Viewport.Width / 1920,
+        //                   1f);
+        //    GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            base.Draw(gameTime);
-            screenManager.Draw(gameTime);
+        //    base.Draw(gameTime);
+        //    screenManager.Draw(gameTime);
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, matrix);
+        //    spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, matrix);
 
-            //spriteBatch.DrawString(font, "test", new Vector2(100, 150), Color.Black);
-            spriteBatch.Draw(image01, new Rectangle(0, 0, 1980, 1080), Color.White);
-            spriteBatch.End();
-        }
+        //    //spriteBatch.DrawString(font, "test", new Vector2(100, 150), Color.Black);
+        //    //spriteBatch.Draw(image01, new Rectangle(0, 0, 1980, 1080), Color.White);
+        //    spriteBatch.End();
+        //}
     }
 }
