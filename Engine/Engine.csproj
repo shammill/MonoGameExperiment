@@ -52,7 +52,9 @@
     </Compile>
     <Compile Include="Graphics\BoundingRectangle.cs" />
     <Compile Include="Graphics\CircleF.cs" />
+    <Compile Include="Graphics\Path.cs" />
     <Compile Include="Graphics\PrimativesHelper.cs" />
+    <Compile Include="Graphics\Segment2.cs" />
     <Compile Include="Graphics\ShapeExtensions.cs" />
     <Compile Include="Graphics\ShapeF.cs" />
     <Compile Include="Graphics\Matrix2.cs" />
