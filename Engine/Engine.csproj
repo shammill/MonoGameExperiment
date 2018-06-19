@@ -52,6 +52,7 @@
     </Compile>
     <Compile Include="Graphics\BoundingRectangle.cs" />
     <Compile Include="Graphics\CircleF.cs" />
+    <Compile Include="Graphics\Functions\SquareTile.cs" />
     <Compile Include="Graphics\Path.cs" />
     <Compile Include="Graphics\PrimativesHelper.cs" />
     <Compile Include="Graphics\Segment2.cs" />
