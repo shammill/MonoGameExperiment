@@ -6,16 +6,16 @@ namespace Engine.Graphics.Shapes
 {
     public class Polyline
     {
-        public Polyline(IEnumerable<Vector2> points)
-        {
-            Points = points;
-        }
-
         public IEnumerable<Vector2> Points { get; private set; }
         public float Left => Points.Min(p => p.X);
         public float Top => Points.Min(p => p.Y);
         public float Right => Points.Max(p => p.X);
         public float Bottom => Points.Max(p => p.Y);
+
+        public Polyline(IEnumerable<Vector2> points)
+        {
+            Points = points;
+        }
 
         public RectangleF BoundingRectangle
         {

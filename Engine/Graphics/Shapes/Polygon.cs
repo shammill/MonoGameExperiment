@@ -7,6 +7,13 @@ namespace Engine.Graphics.Shapes
 {
     public class Polygon : IEquatable<Polygon>
     {
+        private readonly Vector2[] _localVertices;
+        private Vector2[] _transformedVertices;
+        private Vector2 _offset;
+        private float _rotation;
+        private Vector2 _scale;
+        private bool _isDirty;
+
         public Polygon(IEnumerable<Vector2> vertices)
         {
             _localVertices = vertices.ToArray();
@@ -16,13 +23,6 @@ namespace Engine.Graphics.Shapes
             _scale = Vector2.One;
             _isDirty = false;
         }
-
-        private readonly Vector2[] _localVertices;
-        private Vector2[] _transformedVertices;
-        private Vector2 _offset;
-        private float _rotation;
-        private Vector2 _scale;
-        private bool _isDirty;
 
         public Vector2[] Vertices
         {

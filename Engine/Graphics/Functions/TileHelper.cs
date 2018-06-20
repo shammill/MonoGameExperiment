@@ -31,10 +31,10 @@ namespace Engine.Graphics.Functions
             return new Size2(pixelsX, pixelsY);
         }
 
-        public static List<Segment2> GetHorizontalLines(RectangleF textureSize, Size2 numberOfTilesXY, Size2 tileSize)
+        public static List<Segment2> GetStraightHorizontalLines(RectangleF textureSize, Size2 numberOfTilesXY, Size2 tileSize)
         {
             List<Segment2> horizontalLines = new List<Segment2>();
-            for (var index = 1; index < numberOfTilesXY.Height; index++)
+            for (var index = 0; index <= numberOfTilesXY.Height; index++)
             {
                 float XPosition = 0;
                 float YPosition = tileSize.Height * index;
@@ -46,11 +46,11 @@ namespace Engine.Graphics.Functions
             return horizontalLines;
         }
 
-        public static List<Segment2> GetVerticalLines(RectangleF textureSize, Size2 numberOfTilesXY, Size2 tileSize)
+        public static List<Segment2> GetStraightVerticalLines(RectangleF textureSize, Size2 numberOfTilesXY, Size2 tileSize)
         {
             List<Segment2> verticalLines = new List<Segment2>();
 
-            for (var index = 1; index < numberOfTilesXY.Width; index++)
+            for (var index = 0; index <= numberOfTilesXY.Width; index++)
             {
                 float YPosition = 0;
                 float XPosition = tileSize.Width * index;
@@ -69,8 +69,8 @@ namespace Engine.Graphics.Functions
             Size2 tileSize = GetTileSize(textureSize, numberOfTiles);
 
             // Generate Line Segments
-            List<Segment2> horizontalLines = GetHorizontalLines(textureSize, numberOfTilesXY, tileSize);
-            List<Segment2> verticalLines = GetVerticalLines(textureSize, numberOfTilesXY, tileSize);
+            List<Segment2> horizontalLines = GetStraightHorizontalLines(textureSize, numberOfTilesXY, tileSize);
+            List<Segment2> verticalLines = GetStraightVerticalLines(textureSize, numberOfTilesXY, tileSize);
 
             foreach (var horizontalLine in horizontalLines)
             {
@@ -85,5 +85,38 @@ namespace Engine.Graphics.Functions
             return new List<RectangleF>();
         }
 
+        public static List<RectangleF> GenerateSquareTiles2(Texture2D texture, int numberOfTiles)
+        {
+            RectangleF textureSize = texture.Bounds;
+            Size2 numberOfTilesXY = GetTotalNumberOfTiles(textureSize, numberOfTiles);
+            Size2 tileSize = GetTileSize(textureSize, numberOfTiles);
+
+            // Generate Line Segments
+            List<RectangleF> tiles = GetTiles(textureSize, numberOfTilesXY, tileSize);
+         
+            // loop through lines and catch intersections.
+
+            return new List<RectangleF>();
+        }
+
+        private static List<RectangleF> GetTiles(RectangleF textureSize, Size2 numberOfTilesXY, Size2 tileSize)
+        {
+            List<RectangleF> tiles = new List<RectangleF>();
+
+            for (var indexX = 0; indexX < numberOfTilesXY.Width; indexX++)
+            {
+                for (var indexY = 0; indexX < numberOfTilesXY.Height; indexY++)
+                {
+                    float startingX = tileSize.Width * indexX;
+                    float startingY = tileSize.Height * indexY;
+                    float width = tileSize.Width;
+                    float height = tileSize.Height;
+
+                    RectangleF newTile = new RectangleF(startingX, startingY, width, height);
+                    tiles.Add(newTile);
+                }
+            }
+            return tiles;
+        }
     }
 }
