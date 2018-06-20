@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Engine.Graphics;
+using Engine.Graphics.Functions;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -14,6 +16,7 @@ namespace Engine.Screens
     {
         private SpriteBatch _spriteBatch;
         private Texture2D _background;
+        List<RectangleF> tiles;
 
         public MainMenuScreen(Game game) : base(game)
         {
@@ -31,6 +34,10 @@ namespace Engine.Screens
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _background = Content.Load<Texture2D>("01");
             //Font = Content.Load<BitmapFont>("Fonts/montserrat-32");
+
+            Size2 tileSize = TileHelper.GetTileSize(_background.Bounds, 4);
+            Size2 numberOfPieces = TileHelper.GetTotalNumberOfTiles(_background.Bounds, 4);
+            tiles = TileHelper.GetTilePositions(_background.Bounds, numberOfPieces, tileSize);
         }
 
         public override void Update(GameTime gameTime)
@@ -42,8 +49,9 @@ namespace Engine.Screens
         {
             GraphicsDevice.Clear(Color.Magenta);
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-            _spriteBatch.Draw(_background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
 
+            //_spriteBatch.Draw(_background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+            _spriteBatch.Draw()
             _spriteBatch.End();
         }
 

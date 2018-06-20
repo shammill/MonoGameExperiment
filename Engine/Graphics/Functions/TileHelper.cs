@@ -62,7 +62,7 @@ namespace Engine.Graphics.Functions
             return verticalLines;
         }
 
-        public static List<RectangleF> GenerateSquareTiles(Texture2D texture, int numberOfTiles)
+        public static List<RectangleF> GenerateLineSegments(Texture2D texture, int numberOfTiles)
         {
             RectangleF textureSize = texture.Bounds;
             Size2 numberOfTilesXY = GetTotalNumberOfTiles(textureSize, numberOfTiles);
@@ -85,21 +85,19 @@ namespace Engine.Graphics.Functions
             return new List<RectangleF>();
         }
 
-        public static List<RectangleF> GenerateSquareTiles2(Texture2D texture, int numberOfTiles)
+        public static List<RectangleF> GenerateSquareTiles(Texture2D texture, int numberOfTiles)
         {
             RectangleF textureSize = texture.Bounds;
             Size2 numberOfTilesXY = GetTotalNumberOfTiles(textureSize, numberOfTiles);
             Size2 tileSize = GetTileSize(textureSize, numberOfTiles);
 
-            // Generate Line Segments
-            List<RectangleF> tiles = GetTiles(textureSize, numberOfTilesXY, tileSize);
-         
-            // loop through lines and catch intersections.
+            // Generate Tiles
+            List<RectangleF> tiles = GetTilePositions(textureSize, numberOfTilesXY, tileSize);
 
-            return new List<RectangleF>();
+            return tiles;
         }
 
-        private static List<RectangleF> GetTiles(RectangleF textureSize, Size2 numberOfTilesXY, Size2 tileSize)
+        public static List<RectangleF> GetTilePositions(RectangleF textureSize, Size2 numberOfTilesXY, Size2 tileSize)
         {
             List<RectangleF> tiles = new List<RectangleF>();
 
