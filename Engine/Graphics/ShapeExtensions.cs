@@ -282,5 +282,11 @@ namespace Engine.Graphics
 
             return points;
         }
+
+        public static Rectangle ToRectangle(this RectangleF rectangleF)
+        {
+            Rectangle rectangle = new Rectangle((int)rectangleF.X, (int)rectangleF.Y, (int)rectangleF.Width, (int)rectangleF.Height);
+            return rectangle;
+        }
     }
 }

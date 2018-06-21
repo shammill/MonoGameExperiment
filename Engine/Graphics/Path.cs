@@ -9,8 +9,6 @@ namespace Engine.Graphics
 {
     public class Path
     {
-        Microsoft.Xna.Framework.Graphics.
-        Graphics.
      
     }
 }

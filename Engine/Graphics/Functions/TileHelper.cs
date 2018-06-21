@@ -14,8 +14,8 @@ namespace Engine.Graphics.Functions
     {
         public static Size2 GetTotalNumberOfTiles(RectangleF textureBounds, int numberOfTilesVertical)
         {
-            float pixelsY = textureBounds.Y / numberOfTilesVertical; // get the number of pixels per piece
-            float numberOfHorizontalPieces = textureBounds.X / pixelsY; // keep the X size the same as Y as it is square.
+            float pixelsY = textureBounds.Height / numberOfTilesVertical; // get the number of pixels per piece
+            float numberOfHorizontalPieces = textureBounds.Width / pixelsY; // keep the X size the same as Y as it is square.
             int roundednumberOfHorizontalPieces = Convert.ToInt32(Math.Round(numberOfHorizontalPieces));
 
             return new Size2(roundednumberOfHorizontalPieces, numberOfTilesVertical);
@@ -23,10 +23,10 @@ namespace Engine.Graphics.Functions
 
         public static Size2 GetTileSize(RectangleF textureBounds, int numberOfTilesVertical)
         {
-            float pixelsY = textureBounds.Y / numberOfTilesVertical; // get the number of pixels per piece
-            float numberOfHorizontalPieces = textureBounds.X / pixelsY; // keep the X size the same as Y as it is square.
+            float pixelsY = textureBounds.Height / numberOfTilesVertical; // get the number of pixels per piece
+            float numberOfHorizontalPieces = textureBounds.Width / pixelsY; // keep the X size the same as Y as it is square.
             int roundednumberOfHorizontalPieces = Convert.ToInt32(Math.Round(numberOfHorizontalPieces));
-            float pixelsX = textureBounds.X / roundednumberOfHorizontalPieces;
+            float pixelsX = textureBounds.Width / roundednumberOfHorizontalPieces;
 
             return new Size2(pixelsX, pixelsY);
         }
@@ -103,7 +103,7 @@ namespace Engine.Graphics.Functions
 
             for (var indexX = 0; indexX < numberOfTilesXY.Width; indexX++)
             {
-                for (var indexY = 0; indexX < numberOfTilesXY.Height; indexY++)
+                for (var indexY = 0; indexY < numberOfTilesXY.Height; indexY++)
                 {
                     float startingX = tileSize.Width * indexX;
                     float startingY = tileSize.Height * indexY;

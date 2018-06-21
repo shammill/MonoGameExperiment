@@ -38,6 +38,7 @@ namespace Engine.Screens
             Size2 tileSize = TileHelper.GetTileSize(_background.Bounds, 4);
             Size2 numberOfPieces = TileHelper.GetTotalNumberOfTiles(_background.Bounds, 4);
             tiles = TileHelper.GetTilePositions(_background.Bounds, numberOfPieces, tileSize);
+
         }
 
         public override void Update(GameTime gameTime)
@@ -51,7 +52,11 @@ namespace Engine.Screens
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
             //_spriteBatch.Draw(_background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
-            _spriteBatch.Draw()
+            foreach (var tile in tiles)
+            {
+                _spriteBatch.Draw(_background, new Vector2(tile.X, tile.Y), tile.ToRectangle(), Color.White);
+            }
+            
             _spriteBatch.End();
         }
 
