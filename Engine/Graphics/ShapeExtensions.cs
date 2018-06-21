@@ -285,7 +285,21 @@ namespace Engine.Graphics
 
         public static Rectangle ToRectangle(this RectangleF rectangleF)
         {
-            Rectangle rectangle = new Rectangle((int)rectangleF.X, (int)rectangleF.Y, (int)rectangleF.Width, (int)rectangleF.Height);
+            Rectangle rectangle = new Rectangle(
+                (int)(rectangleF.X),
+                (int)(rectangleF.Y),
+                (int)(rectangleF.Width),
+                (int)(rectangleF.Height));
+            return rectangle;
+        }
+
+        public static Rectangle ToRectangleScaled(this RectangleF rectangleF, float scaleX, float scaleY)
+        {
+            Rectangle rectangle = new Rectangle(
+                (int)(rectangleF.X * scaleX),
+                (int)(rectangleF.Y * scaleY),
+                (int)(rectangleF.Width * scaleX),
+                (int)(rectangleF.Height * scaleY));
             return rectangle;
         }
     }
