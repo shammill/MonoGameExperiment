@@ -9,6 +9,11 @@ namespace Engine.Graphics
 {
     public class Path
     {
-     
+        public List<Segment2> path = new List<Segment2>();
+
+        public void AddLine(Segment2 line)
+        {
+            path.Add(line);
+        }
     }
 }

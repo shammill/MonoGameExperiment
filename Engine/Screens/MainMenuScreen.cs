@@ -1,4 +1,5 @@
-﻿using Engine.Graphics;
+﻿using Engine.Entities;
+using Engine.Graphics;
 using Engine.Graphics.Functions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -16,7 +17,8 @@ namespace Engine.Screens
     {
         private SpriteBatch _spriteBatch;
         private Texture2D _background;
-        List<RectangleF> tiles;
+        List<RectangleF> tileOrigins;
+        List<Tile> tiles;
         Game _game;
         float scaleX = 1f;
         float scaleY = 1f;
@@ -39,9 +41,9 @@ namespace Engine.Screens
             _background = Content.Load<Texture2D>("01");
             //Font = Content.Load<BitmapFont>("Fonts/montserrat-32");
 
-            Size2 tileSize = TileHelper.GetTileSize(_background.Bounds, 4);
-            Size2 numberOfPieces = TileHelper.GetTotalNumberOfTiles(_background.Bounds, 4);
-            tiles = TileHelper.GetTilePositions(_background.Bounds, numberOfPieces, tileSize);
+            Size2 tileSize = TileHelper.GetTileSize(_background.Bounds, 10);
+            Size2 numberOfPieces = TileHelper.GetTotalNumberOfTiles(_background.Bounds, 10);
+            tileOrigins = TileHelper.GetTilePositions(_background.Bounds, numberOfPieces, tileSize);
 
             if (_background.Bounds.Width > GraphicsDevice.Viewport.Width)
             {
@@ -53,6 +55,25 @@ namespace Engine.Screens
                 scaleY = (float)_background.Bounds.Height / (float)GraphicsDevice.Viewport.Height;
             }
             combinedScale = (scaleX + scaleY) / 2f;
+
+            tiles = new List<Tile>();
+            foreach (var tileOrigin in tileOrigins)
+            {
+                var tile = new Tile();
+                tile.originRectangle = tileOrigin;
+                tile.rotation = 0f;
+                tile.scaleX = scaleX;
+                tile.scaleY = scaleY;
+
+                float scaledXPosition = tileOrigin.X * scaleX;
+                float scaledYPosition = tileOrigin.Y * scaleY;
+                float scaledWidth = tileOrigin.Width * scaleX;
+                float scaledHeight = tileOrigin.Height * scaleY;
+
+                tile.currentRectangle = new RectangleF(scaledXPosition, scaledYPosition, scaledWidth, scaledHeight);
+                tiles.Add(tile);
+            }
+
         }
 
         public override void Update(GameTime gameTime)
@@ -68,7 +89,7 @@ namespace Engine.Screens
             //_spriteBatch.Draw(_background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
             foreach (var tile in tiles)
             {
-                _spriteBatch.Draw(_background, new Vector2((tile.X * scaleX), (tile.Y * scaleY)), tile.ToRectangle(), Color.White, 0.5f, new Vector2(), new Vector2(scaleX, scaleY), SpriteEffects.None, 0f);
+                _spriteBatch.Draw(_background, new Vector2((tile.currentRectangle.X), (tile.currentRectangle.Y)), tile.originRectangle.ToRectangle(), Color.White, 1f, new Vector2(), new Vector2(scaleX, scaleY), SpriteEffects.None, 0f);
             }
             
             _spriteBatch.End();

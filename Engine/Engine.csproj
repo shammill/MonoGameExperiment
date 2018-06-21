@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Components\SimpleDrawableGameComponent.cs" />
     <Compile Include="Components\SimpleGameComponent.cs" />
+    <Compile Include="Entities\Tile.cs" />
     <Compile Include="Forms\SystemSettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -201,7 +202,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Entities\" />
     <Folder Include="Graphics\Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
