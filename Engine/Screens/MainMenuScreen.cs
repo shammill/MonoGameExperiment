@@ -79,6 +79,26 @@ namespace Engine.Screens
         public override void Update(GameTime gameTime)
         {
 
+            var mouseState = Mouse.GetState();
+            if (mouseState.LeftButton == ButtonState.Pressed)
+            {
+                Console.WriteLine("MousePosition: " + mouseState.Position.X.ToString() + "-" + mouseState.Position.Y.ToString());
+                foreach (var tile in tiles)
+                {
+                    Console.WriteLine("On Tile: " + tile.currentRectangle.Center.X.ToString() + "-" + tile.currentRectangle.Center.Y.ToString());
+                    if (tile.currentRectangle.Contains(mouseState.Position));
+                    {
+                        Console.WriteLine("I hit a tile:");
+                        Console.Write("X:");
+                        Console.Write(tile.currentRectangle.X.ToString());
+                        Console.Write(" - ");
+                        Console.Write("Y:");
+                        Console.Write(tile.currentRectangle.Y.ToString());
+                        Console.WriteLine("");
+                        break;
+                    }
+                }
+            }
         }
 
         public override void Draw(GameTime gameTime)
