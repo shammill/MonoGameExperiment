@@ -56,6 +56,7 @@
     <Compile Include="Graphics\Functions\TileHelper.cs" />
     <Compile Include="Graphics\Path.cs" />
     <Compile Include="Graphics\PrimativesHelper.cs" />
+    <Compile Include="Graphics\RotationHelper.cs" />
     <Compile Include="Graphics\Segment2.cs" />
     <Compile Include="Graphics\ShapeExtensions.cs" />
     <Compile Include="Graphics\ShapeF.cs" />
@@ -107,6 +108,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>SystemSettings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Utility\Constants.cs" />
     <Compile Include="Utility\Extensions\EnumExtensions.cs" />
     <Compile Include="Utility\Extensions\GameTimeExtensions.cs" />
     <Compile Include="Utility\Extensions\IntExtensions.cs" />

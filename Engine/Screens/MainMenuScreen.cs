@@ -1,6 +1,7 @@
 ﻿using Engine.Entities;
 using Engine.Graphics;
 using Engine.Graphics.Functions;
+using Engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -23,6 +24,7 @@ namespace Engine.Screens
         float scaleX = 1f;
         float scaleY = 1f;
         float combinedScale = 1f;
+        MouseState oldMouseState;
 
         public MainMenuScreen(Game game) : base(game)
         {
@@ -41,19 +43,28 @@ namespace Engine.Screens
             _background = Content.Load<Texture2D>("01");
             //Font = Content.Load<BitmapFont>("Fonts/montserrat-32");
 
-            Size2 tileSize = TileHelper.GetTileSize(_background.Bounds, 10);
-            Size2 numberOfPieces = TileHelper.GetTotalNumberOfTiles(_background.Bounds, 10);
+            Size2 tileSize = TileHelper.GetTileSize(_background.Bounds, 12);
+            Size2 numberOfPieces = TileHelper.GetTotalNumberOfTiles(_background.Bounds, 12);
             tileOrigins = TileHelper.GetTilePositions(_background.Bounds, numberOfPieces, tileSize);
 
             if (_background.Bounds.Width > GraphicsDevice.Viewport.Width)
             {
                 scaleX = (float)GraphicsDevice.Viewport.Width / (float)_background.Bounds.Width;
-                scaleY = (float)GraphicsDevice.Viewport.Height/ (float)_background.Bounds.Height;
+                //scaleY = (float)GraphicsDevice.Viewport.Height/ (float)_background.Bounds.Height;
             }
             else { 
                 scaleX = (float)_background.Bounds.Width / (float)GraphicsDevice.Viewport.Width;
+                //scaleY = (float)_background.Bounds.Height / (float)GraphicsDevice.Viewport.Height;
+            }
+            if (_background.Bounds.Height > GraphicsDevice.Viewport.Height)
+            {
+                scaleY = (float)GraphicsDevice.Viewport.Height / (float)_background.Bounds.Height;
+            }
+            else
+            {
                 scaleY = (float)_background.Bounds.Height / (float)GraphicsDevice.Viewport.Height;
             }
+
             combinedScale = (scaleX + scaleY) / 2f;
 
             tiles = new List<Tile>();
@@ -70,6 +81,10 @@ namespace Engine.Screens
                 float scaledWidth = tileOrigin.Width * scaleX;
                 float scaledHeight = tileOrigin.Height * scaleY;
 
+                tile.relativeOrigin.X = tileOrigin.Width * 0.5f;
+                tile.relativeOrigin.Y = tileOrigin.Height * 0.5f;
+
+                tile.centerOriginRectangle = new RectangleF(scaledXPosition + scaledWidth / 2f, scaledYPosition + scaledHeight / 2f, scaledWidth, scaledHeight);
                 tile.currentRectangle = new RectangleF(scaledXPosition, scaledYPosition, scaledWidth, scaledHeight);
                 tiles.Add(tile);
             }
@@ -78,41 +93,67 @@ namespace Engine.Screens
 
         public override void Update(GameTime gameTime)
         {
-
             var mouseState = Mouse.GetState();
-            if (mouseState.LeftButton == ButtonState.Pressed)
+
+            if (mouseState.RightButton == ButtonState.Pressed && oldMouseState.RightButton == ButtonState.Released)
             {
-                Console.WriteLine("MousePosition: " + mouseState.Position.X.ToString() + "-" + mouseState.Position.Y.ToString());
                 foreach (var tile in tiles)
                 {
-                    Console.WriteLine("On Tile: " + tile.currentRectangle.Center.X.ToString() + "-" + tile.currentRectangle.Center.Y.ToString());
-                    if (tile.currentRectangle.Contains(mouseState.Position));
+                    if (tile.currentRectangle.Contains(mouseState.Position))
                     {
-                        Console.WriteLine("I hit a tile:");
-                        Console.Write("X:");
-                        Console.Write(tile.currentRectangle.X.ToString());
-                        Console.Write(" - ");
-                        Console.Write("Y:");
-                        Console.Write(tile.currentRectangle.Y.ToString());
-                        Console.WriteLine("");
+                        float widthHolder = tile.currentRectangle.Width;
+                        tile.currentRectangle.Width = tile.currentRectangle.Height;
+                        tile.currentRectangle.Height = widthHolder;
+                        tile.rotation = RotationHelper.Rotate90Degrees(tile.rotation);
                         break;
                     }
                 }
             }
+
+                oldMouseState = mouseState;
         }
 
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.DimGray);
-            _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            _spriteBatch.Begin();
 
             //_spriteBatch.Draw(_background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
             foreach (var tile in tiles)
             {
-                _spriteBatch.Draw(_background, new Vector2((tile.currentRectangle.X), (tile.currentRectangle.Y)), tile.originRectangle.ToRectangle(), Color.White, 1f, new Vector2(), new Vector2(scaleX, scaleY), SpriteEffects.None, 0f);
+                _spriteBatch.Draw(_background,
+                    tile.centerOriginRectangle.ToRectangle(),
+                    tile.originRectangle.ToRectangle(),
+                    Color.White,
+                    tile.rotation,
+                    //Vector2.Zero,
+                    tile.relativeOrigin,
+                    SpriteEffects.None, 0f);
+
+
+                //_spriteBatch.Draw(_background,
+                //    //new Vector2((tile.currentRectangle.X + tile.currentRectangle.Width / 5f), (tile.currentRectangle.Y + tile.currentRectangle.Height / 6f)),
+                //    new Vector2((tile.currentRectangle.X), (tile.currentRectangle.Y)),
+                //    tile.originRectangle.ToRectangle(),
+                //    Color.White,
+                //    tile.rotation,
+                //    //Vector2.Zero,
+                //    new Vector2(tile.originRectangle.Width / 2f, tile.originRectangle.Height / 2f),
+                //    new Vector2(scaleX, scaleY),
+                //    SpriteEffects.None,
+                //    0f);
             }
-            
-            _spriteBatch.End();
+
+            foreach (var tile in tiles)
+            {
+                //_spriteBatch.DrawPoint(tile.currentRectangle.X, tile.currentRectangle.Y, Color.Red, 6f);
+                _spriteBatch.DrawPoint(tile.centerOriginRectangle.X, tile.centerOriginRectangle.Y, Color.Magenta, 6f);
+                _spriteBatch.DrawRectangle(tile.currentRectangle, Color.Blue, 1f);
+                //_spriteBatch.DrawRectangle(tile.centerOriginRectangle, Color.Green, 1f);
+                //_spriteBatch.DrawPoint(tile.relativeOrigin, Color.Yellow, 2f); 
+            }
+
+                _spriteBatch.End();
         }
 
 
