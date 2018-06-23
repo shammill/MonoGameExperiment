@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Components\SimpleDrawableGameComponent.cs" />
     <Compile Include="Components\SimpleGameComponent.cs" />
+    <Compile Include="ContentExtensions\ContentReaderExtensions.cs" />
     <Compile Include="Entities\Tile.cs" />
     <Compile Include="Forms\SystemSettings.cs">
       <SubType>Form</SubType>
@@ -54,6 +55,10 @@
     <Compile Include="Graphics\BoundingRectangle.cs" />
     <Compile Include="Graphics\CircleF.cs" />
     <Compile Include="Graphics\Functions\TileHelper.cs" />
+    <Compile Include="Graphics\IColorable.cs" />
+    <Compile Include="Graphics\IMovable.cs" />
+    <Compile Include="Graphics\IRotatable.cs" />
+    <Compile Include="Graphics\IScalable.cs" />
     <Compile Include="Graphics\Path.cs" />
     <Compile Include="Graphics\PrimativesHelper.cs" />
     <Compile Include="Graphics\RotationHelper.cs" />
@@ -65,7 +70,18 @@
     <Compile Include="Graphics\RectangleF.cs" />
     <Compile Include="Graphics\Shapes\Polygon.cs" />
     <Compile Include="Graphics\Shapes\PolyLine.cs" />
+    <Compile Include="Graphics\Size.cs" />
     <Compile Include="Graphics\Size2.cs" />
+    <Compile Include="Graphics\Sprites\ISpriteBatchDrawable.cs" />
+    <Compile Include="Graphics\Sprites\Sprite.cs" />
+    <Compile Include="Graphics\Sprites\SpriteExtensions.cs" />
+    <Compile Include="Graphics\TextureAtlases\NinePatchRegion2D.cs" />
+    <Compile Include="Graphics\TextureAtlases\TextureAtlas.cs" />
+    <Compile Include="Graphics\TextureAtlases\TextureAtlasExtensions.cs" />
+    <Compile Include="Graphics\TextureAtlases\TextureAtlasReader.cs" />
+    <Compile Include="Graphics\TextureAtlases\TextureRegion2D.cs" />
+    <Compile Include="Graphics\Thickness.cs" />
+    <Compile Include="Graphics\Transform.cs" />
     <Compile Include="Graphics\Vector2Extensions.cs" />
     <Compile Include="Input\KeyboardExtended.cs" />
     <Compile Include="Input\KeyboardStateExtended.cs" />

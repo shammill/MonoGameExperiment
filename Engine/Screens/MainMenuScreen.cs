@@ -1,6 +1,8 @@
 ﻿using Engine.Entities;
 using Engine.Graphics;
 using Engine.Graphics.Functions;
+using Engine.Graphics.Sprites;
+using Engine.Graphics.TextureAtlases;
 using Engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -41,6 +43,10 @@ namespace Engine.Screens
             base.LoadContent();
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _background = Content.Load<Texture2D>("01");
+
+            TextureRegion2D t2D = new TextureRegion2D(_background);
+            Sprite sprite = new Sprite(t2D);
+
             //Font = Content.Load<BitmapFont>("Fonts/montserrat-32");
 
             Size2 tileSize = TileHelper.GetTileSize(_background.Bounds, 12);
@@ -104,7 +110,15 @@ namespace Engine.Screens
                         float widthHolder = tile.currentRectangle.Width;
                         tile.currentRectangle.Width = tile.currentRectangle.Height;
                         tile.currentRectangle.Height = widthHolder;
+                        //tile.currentRectangle.
+
+                        var previousRotation = tile.rotation;
                         tile.rotation = RotationHelper.Rotate90Degrees(tile.rotation);
+
+                        Matrix rotate = Matrix.CreateRotationZ(tile.rotation - previousRotation);
+                        //
+                        //tile.currentRectangle.X
+
                         break;
                     }
                 }
