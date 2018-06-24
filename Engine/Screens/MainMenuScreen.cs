@@ -131,7 +131,7 @@ namespace Engine.Screens
             // Right Click for Rotation
             if (mouseState.RightButton == ButtonState.Pressed && oldMouseState.RightButton == ButtonState.Released && selectedTile == null)
             {
-                foreach (var tile in tiles)
+                foreach (var tile in tiles.OrderByDescending(x => x.zIndex))
                 {
                     if (tile.GetBoundingBox().Contains(mouseState.Position))
                     {
@@ -160,6 +160,10 @@ namespace Engine.Screens
                         selectedTile.isHome = true;
                     }
                 }
+                else if (selectedTile != null)
+                {
+                    selectedTile.isHome = false;
+                }
 
                 selectedTile = null;
             }
@@ -178,9 +182,20 @@ namespace Engine.Screens
             {
                 foreach (var tile in tiles.Where(x => x.zIndex == zIndex))
                 {
+                    // draw shadow
+                    if (!tile.isHome) {
+                        tile.sprite.Alpha = 0.8f;
+                        tile.sprite.Color = Color.DimGray;
+                        tile.sprite.Draw(_spriteBatch, tile.Position.Offset(2f), tile.rotation, tile.scale);
+                    }
+
+                    //draw sprite
+                    tile.sprite.Color = Color.White;
                     tile.sprite.Draw(_spriteBatch, tile.Position, tile.rotation, tile.scale);
-                    _spriteBatch.DrawPoint(tile.Position.X, tile.Position.Y, Color.Magenta, 6f);
-                    _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), Color.Blue, 1f);
+                    
+                    // draw coords for debugging
+                    //_spriteBatch.DrawPoint(tile.Position.X, tile.Position.Y, Color.Magenta, 6f);
+                    //_spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), Color.Blue, 1f);
                 }
             }
 

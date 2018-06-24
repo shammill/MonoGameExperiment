@@ -251,5 +251,11 @@ namespace Engine.Graphics
             var lengthSquaredDenominator = vector2.X * vector2.X + vector2.Y * vector2.Y;
             return dotNumerator / lengthSquaredDenominator * vector2;
         }
+
+
+        public static Vector2 Offset(this Vector2 vector, float pixels)
+        {
+            return new Vector2(vector.X + pixels, vector.Y + pixels);
+        }
     }
 }
