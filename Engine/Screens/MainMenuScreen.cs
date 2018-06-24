@@ -44,23 +44,25 @@ namespace Engine.Screens
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _background = Content.Load<Texture2D>("01");
 
-            TextureRegion2D t2D = new TextureRegion2D(_background);
-            Sprite sprite = new Sprite(t2D);
-
             //Font = Content.Load<BitmapFont>("Fonts/montserrat-32");
 
             Size2 tileSize = TileHelper.GetTileSize(_background.Bounds, 12);
             Size2 numberOfPieces = TileHelper.GetTotalNumberOfTiles(_background.Bounds, 12);
             tileOrigins = TileHelper.GetTilePositions(_background.Bounds, numberOfPieces, tileSize);
 
+            GetScale();
+            GenerateTiles();
+        }
+
+        public void GetScale()
+        {
             if (_background.Bounds.Width > GraphicsDevice.Viewport.Width)
             {
                 scaleX = (float)GraphicsDevice.Viewport.Width / (float)_background.Bounds.Width;
-                //scaleY = (float)GraphicsDevice.Viewport.Height/ (float)_background.Bounds.Height;
             }
-            else { 
+            else
+            {
                 scaleX = (float)_background.Bounds.Width / (float)GraphicsDevice.Viewport.Width;
-                //scaleY = (float)_background.Bounds.Height / (float)GraphicsDevice.Viewport.Height;
             }
             if (_background.Bounds.Height > GraphicsDevice.Viewport.Height)
             {
@@ -70,32 +72,33 @@ namespace Engine.Screens
             {
                 scaleY = (float)_background.Bounds.Height / (float)GraphicsDevice.Viewport.Height;
             }
-
             combinedScale = (scaleX + scaleY) / 2f;
+        }
 
+        public List<Tile> GenerateTiles()
+        {
             tiles = new List<Tile>();
             foreach (var tileOrigin in tileOrigins)
             {
-                var tile = new Tile();
-                tile.originRectangle = tileOrigin;
-                tile.rotation = 0f;
-                tile.scaleX = scaleX;
-                tile.scaleY = scaleY;
-
                 float scaledXPosition = tileOrigin.X * scaleX;
                 float scaledYPosition = tileOrigin.Y * scaleY;
                 float scaledWidth = tileOrigin.Width * scaleX;
                 float scaledHeight = tileOrigin.Height * scaleY;
 
-                tile.relativeOrigin.X = tileOrigin.Width * 0.5f;
-                tile.relativeOrigin.Y = tileOrigin.Height * 0.5f;
+                var tile = new Tile();
+                TextureRegion2D newt2ds = new TextureRegion2D(_background, tileOrigin.ToRectangle());
+                tile.sprite = new Sprite(newt2ds);
 
-                tile.centerOriginRectangle = new RectangleF(scaledXPosition + scaledWidth / 2f, scaledYPosition + scaledHeight / 2f, scaledWidth, scaledHeight);
-                tile.currentRectangle = new RectangleF(scaledXPosition, scaledYPosition, scaledWidth, scaledHeight);
+                tile.rotation = 0f;
+                tile.position = new Vector2(scaledXPosition + scaledWidth * 0.5f, scaledYPosition + scaledHeight * 0.5f);
+                tile.scale = new Vector2(scaleX, scaleY);
+
                 tiles.Add(tile);
             }
+            return tiles;
 
         }
+
 
         public override void Update(GameTime gameTime)
         {
@@ -105,26 +108,15 @@ namespace Engine.Screens
             {
                 foreach (var tile in tiles)
                 {
-                    if (tile.currentRectangle.Contains(mouseState.Position))
+                    if (tile.GetBoundingBox().Contains(mouseState.Position))
                     {
-                        float widthHolder = tile.currentRectangle.Width;
-                        tile.currentRectangle.Width = tile.currentRectangle.Height;
-                        tile.currentRectangle.Height = widthHolder;
-                        //tile.currentRectangle.
-
-                        var previousRotation = tile.rotation;
                         tile.rotation = RotationHelper.Rotate90Degrees(tile.rotation);
-
-                        Matrix rotate = Matrix.CreateRotationZ(tile.rotation - previousRotation);
-                        //
-                        //tile.currentRectangle.X
-
                         break;
                     }
                 }
             }
 
-                oldMouseState = mouseState;
+            oldMouseState = mouseState;
         }
 
         public override void Draw(GameTime gameTime)
@@ -132,42 +124,18 @@ namespace Engine.Screens
             GraphicsDevice.Clear(Color.DimGray);
             _spriteBatch.Begin();
 
-            //_spriteBatch.Draw(_background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
             foreach (var tile in tiles)
             {
-                _spriteBatch.Draw(_background,
-                    tile.centerOriginRectangle.ToRectangle(),
-                    tile.originRectangle.ToRectangle(),
-                    Color.White,
-                    tile.rotation,
-                    //Vector2.Zero,
-                    tile.relativeOrigin,
-                    SpriteEffects.None, 0f);
-
-
-                //_spriteBatch.Draw(_background,
-                //    //new Vector2((tile.currentRectangle.X + tile.currentRectangle.Width / 5f), (tile.currentRectangle.Y + tile.currentRectangle.Height / 6f)),
-                //    new Vector2((tile.currentRectangle.X), (tile.currentRectangle.Y)),
-                //    tile.originRectangle.ToRectangle(),
-                //    Color.White,
-                //    tile.rotation,
-                //    //Vector2.Zero,
-                //    new Vector2(tile.originRectangle.Width / 2f, tile.originRectangle.Height / 2f),
-                //    new Vector2(scaleX, scaleY),
-                //    SpriteEffects.None,
-                //    0f);
+                tile.sprite.Draw(_spriteBatch, tile.position, tile.rotation, tile.scale);
             }
 
             foreach (var tile in tiles)
             {
-                //_spriteBatch.DrawPoint(tile.currentRectangle.X, tile.currentRectangle.Y, Color.Red, 6f);
-                _spriteBatch.DrawPoint(tile.centerOriginRectangle.X, tile.centerOriginRectangle.Y, Color.Magenta, 6f);
-                _spriteBatch.DrawRectangle(tile.currentRectangle, Color.Blue, 1f);
-                //_spriteBatch.DrawRectangle(tile.centerOriginRectangle, Color.Green, 1f);
-                //_spriteBatch.DrawPoint(tile.relativeOrigin, Color.Yellow, 2f); 
+                _spriteBatch.DrawPoint(tile.position.X, tile.position.Y, Color.Magenta, 6f);
+                _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.position, tile.rotation, tile.scale), Color.Blue, 1f);
             }
 
-                _spriteBatch.End();
+            _spriteBatch.End();
         }
 
 
@@ -178,7 +146,6 @@ namespace Engine.Screens
 
             base.UnloadContent();
         }
-
 
         public override void Dispose()
         {

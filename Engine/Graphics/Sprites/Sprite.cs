@@ -34,14 +34,16 @@ namespace Engine.Graphics.Sprites
         public float Alpha { get; set; }
         public float Depth { get; set; }
         public object Tag { get; set; }
+        public bool IsVisible { get; set; }
+        public Vector2 Origin { get; set; }
+        public SpriteEffects Effect { get; set; }
+        public Color Color { get; set; }
 
         public Vector2 OriginNormalized
         {
             get { return new Vector2(Origin.X / TextureRegion.Width, Origin.Y / TextureRegion.Height); }
             set { Origin = new Vector2(value.X * TextureRegion.Width, value.Y * TextureRegion.Height); }
         }
-
-        public Color Color { get; set; }
 
         public RectangleF GetBoundingRectangle(Transform2 transform)
         {
@@ -55,10 +57,6 @@ namespace Engine.Graphics.Sprites
             var max = new Vector2(corners.Max(i => i.X), corners.Max(i => i.Y));
             return new RectangleF(min.X, min.Y, max.X - min.X, max.Y - min.Y);
         }
-
-        public bool IsVisible { get; set; }
-        public Vector2 Origin { get; set; }
-        public SpriteEffects Effect { get; set; }
 
         public TextureRegion2D TextureRegion
         {

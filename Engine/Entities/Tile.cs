@@ -1,4 +1,5 @@
 ﻿using Engine.Graphics;
+using Engine.Graphics.Sprites;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -10,16 +11,26 @@ namespace Engine.Entities
 {
     public class Tile
     {
-        public RectangleF originRectangle; // from the origin texture size, position, etc.
-        public RectangleF currentRectangle; // after scaling and moving.
-        public Vector2 relativeOrigin;
-        //public Vector2 originPosition;
-        public RectangleF centerOriginRectangle; // after scaling and moving.
+        public Sprite sprite;
+        public Vector2 position;
+        public float rotation;
+        public Vector2 scale;
 
-        public float rotation { get; set; } // 0f - 1f scaling. 0.25, 0.50, 0.75.
-        public float scaleX { get; set; }
-        public float scaleY { get; set; }
+        // Game Logic
+        public Vector2 homePosition;
+        public bool isMovable;
+        public bool isHome;
 
+
+        public RectangleF GetBoundingBox()
+        {
+            return this.sprite.GetBoundingRectangle(position, rotation, scale);
+        }
+
+        public bool CheckIsHome()
+        {
+            return (position == homePosition && rotation == 0f);
+        }
 
     }
 }
