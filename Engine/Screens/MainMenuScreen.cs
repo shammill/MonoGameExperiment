@@ -22,6 +22,7 @@ namespace Engine.Screens
         private Texture2D _background;
         List<RectangleF> tileOrigins;
         List<Tile> tiles;
+        Tile selectedTile;
         Game _game;
         float scaleX = 1f;
         float scaleY = 1f;
@@ -90,8 +91,9 @@ namespace Engine.Screens
                 tile.sprite = new Sprite(newt2ds);
 
                 tile.rotation = 0f;
-                tile.position = new Vector2(scaledXPosition + scaledWidth * 0.5f, scaledYPosition + scaledHeight * 0.5f);
+                tile.Position = new Vector2(scaledXPosition + scaledWidth * 0.5f, scaledYPosition + scaledHeight * 0.5f);
                 tile.scale = new Vector2(scaleX, scaleY);
+                tile.homePosition = tile.Position;
 
                 tiles.Add(tile);
             }
@@ -99,12 +101,32 @@ namespace Engine.Screens
 
         }
 
-
         public override void Update(GameTime gameTime)
         {
             var mouseState = Mouse.GetState();
 
-            if (mouseState.RightButton == ButtonState.Pressed && oldMouseState.RightButton == ButtonState.Released)
+            // if you've just clicked select the current tile //todo: add z index filter
+            if (mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Released)
+            {
+                foreach (var tile in tiles)
+                {
+                    if (tile.GetBoundingBox().Contains(mouseState.Position))
+                    {
+                        selectedTile = tile;
+                        tile.Position = mouseState.Position.ToVector2();
+                        break;
+                    }
+                }
+            }
+
+            // Holding left click keeps the tile on the mouse
+            if (mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Pressed && selectedTile != null)
+            {
+                selectedTile.Position = mouseState.Position.ToVector2();
+            }
+
+            // Right Click for Rotation
+            if (mouseState.RightButton == ButtonState.Pressed && oldMouseState.RightButton == ButtonState.Released && selectedTile == null)
             {
                 foreach (var tile in tiles)
                 {
@@ -114,6 +136,29 @@ namespace Engine.Screens
                         break;
                     }
                 }
+            }
+
+            // Right Click for Rotation while holding left click and having a tile selected
+            if (mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Pressed && selectedTile != null && mouseState.RightButton == ButtonState.Pressed && oldMouseState.RightButton == ButtonState.Released)
+            {
+                selectedTile.rotation = RotationHelper.Rotate90Degrees(selectedTile.rotation);
+            }
+
+            // Deselect a tile when releasing a left click
+            if (mouseState.LeftButton == ButtonState.Released && oldMouseState.LeftButton == ButtonState.Pressed)
+            {
+                // Handle snapping
+                if (selectedTile != null && selectedTile.rotation == 0f)
+                {
+                    CircleF circle = new CircleF(selectedTile.homePosition, 20f);
+                    if (circle.Contains(selectedTile.Position))
+                    {
+                        selectedTile.Position = selectedTile.homePosition;
+                        selectedTile.isHome = true;
+                    }
+                }
+
+                selectedTile = null;
             }
 
             oldMouseState = mouseState;
@@ -126,13 +171,13 @@ namespace Engine.Screens
 
             foreach (var tile in tiles)
             {
-                tile.sprite.Draw(_spriteBatch, tile.position, tile.rotation, tile.scale);
+                tile.sprite.Draw(_spriteBatch, tile.Position, tile.rotation, tile.scale);
             }
 
             foreach (var tile in tiles)
             {
-                _spriteBatch.DrawPoint(tile.position.X, tile.position.Y, Color.Magenta, 6f);
-                _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.position, tile.rotation, tile.scale), Color.Blue, 1f);
+                _spriteBatch.DrawPoint(tile.Position.X, tile.Position.Y, Color.Magenta, 6f);
+                _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), Color.Blue, 1f);
             }
 
             _spriteBatch.End();

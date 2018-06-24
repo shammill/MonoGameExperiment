@@ -9,27 +9,27 @@ using System.Threading.Tasks;
 
 namespace Engine.Entities
 {
-    public class Tile
+    public class Tile : IMovable
     {
         public Sprite sprite;
-        public Vector2 position;
+        public Vector2 Position { get; set; }
         public float rotation;
         public Vector2 scale;
+        public int zIndex = 0;
 
         // Game Logic
         public Vector2 homePosition;
         public bool isMovable;
         public bool isHome;
 
-
         public RectangleF GetBoundingBox()
         {
-            return this.sprite.GetBoundingRectangle(position, rotation, scale);
+            return this.sprite.GetBoundingRectangle(Position, rotation, scale);
         }
 
         public bool CheckIsHome()
         {
-            return (position == homePosition && rotation == 0f);
+            return (Position == homePosition && rotation == 0f);
         }
 
     }
