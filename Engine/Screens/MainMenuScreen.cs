@@ -184,15 +184,14 @@ namespace Engine.Screens
             {
                 foreach (var tile in tiles.Where(x => x.zIndex == zIndex))
                 {
-                    // draw shadow
-                    //if (!tile.isHome) {
-                        tile.sprite.DrawShadow(_spriteBatch, tile.Position.Offset(2f), tile.rotation, tile.scale, 0.7f, Color.DimGray);
-                    //}
+
+                    tile.sprite.DrawShadow(_spriteBatch, tile.Position.Offset(2f), tile.rotation, tile.scale, 0.7f, Color.DimGray);
 
                     //draw sprite
                     tile.sprite.Color = Color.White;
                     tile.sprite.Draw(_spriteBatch, tile.Position, tile.rotation, tile.scale);
 
+                    //draw subtle gridlines // TODO: Stop using Rectangle, a jigsaw piece will need to be shaded the same.
                     var newColor = new Color(Color.Black, 0.15f);
                     _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), newColor, 0.5f);
 
