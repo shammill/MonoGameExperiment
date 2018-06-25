@@ -32,5 +32,23 @@ namespace Engine.Graphics.Sprites
                 spriteBatch.Draw(texture, position, sourceRectangle, sprite.Color * sprite.Alpha, rotation, sprite.Origin, scale, sprite.Effect, sprite.Depth);
             }
         }
+
+        public static void DrawShadow(this Sprite sprite, SpriteBatch spriteBatch, Vector2 position, float rotation, Vector2 scale, float alpha, Color color)
+        {
+            DrawShadow(spriteBatch, sprite, position, rotation, scale, alpha, color);
+        }
+
+        public static void DrawShadow(this SpriteBatch spriteBatch, Sprite sprite, Vector2 position, float rotation, Vector2 scale, float alpha, Color color)
+        {
+            if (sprite == null) throw new ArgumentNullException(nameof(sprite));
+
+            if (sprite.IsVisible)
+            {
+                var texture = sprite.TextureRegion.Texture;
+                var sourceRectangle = sprite.TextureRegion.Bounds;
+                spriteBatch.Draw(texture, position.Offset(2f), sourceRectangle, color * alpha, rotation, sprite.Origin, scale, sprite.Effect, sprite.Depth);
+            }
+
+        }
     }
 }
