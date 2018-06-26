@@ -29,6 +29,7 @@ namespace Engine.Screens
         float combinedScale = 1f;
         MouseState oldMouseState;
         int lastZIndex = 2;
+        float percentageComplete = 0;
 
         public MainMenuScreen(Game game) : base(game)
         {
@@ -160,6 +161,7 @@ namespace Engine.Screens
                         selectedTile.Position = selectedTile.homePosition;
                         selectedTile.isHome = true;
                         selectedTile.zIndex = 1;
+                        UpdatePercentageComplete();
                     }
                 }
                 else if (selectedTile != null)
@@ -171,6 +173,11 @@ namespace Engine.Screens
             }
 
             oldMouseState = mouseState;
+        }
+
+        public float UpdatePercentageComplete()
+        {
+            return tiles.Where(x => x.isHome).Count() / tiles.Count();
         }
 
         public override void Draw(GameTime gameTime)
@@ -195,6 +202,9 @@ namespace Engine.Screens
                     var newColor = new Color(Color.Black, 0.15f);
                     _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), newColor, 0.5f);
 
+                    Curve curve = new Curve();
+
+                    //_spriteBatch.DrawCircle
                     // draw coords for debugging
                     //_spriteBatch.DrawPoint(tile.Position.X, tile.Position.Y, Color.Magenta, 6f);
                     //_spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), Color.Blue, 1f);
