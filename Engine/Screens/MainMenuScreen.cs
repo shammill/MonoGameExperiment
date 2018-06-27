@@ -20,6 +20,7 @@ namespace Engine.Screens
     {
         private SpriteBatch _spriteBatch;
         private Texture2D _background;
+        private Texture2D _shape;
         List<RectangleF> tileOrigins;
         List<Tile> tiles;
         Tile selectedTile;
@@ -46,6 +47,7 @@ namespace Engine.Screens
             base.LoadContent();
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _background = Content.Load<Texture2D>("01");
+            _shape = Content.Load<Texture2D>("shape");
 
             //Font = Content.Load<BitmapFont>("Fonts/montserrat-32");
 
@@ -202,6 +204,7 @@ namespace Engine.Screens
                     var newColor = new Color(Color.Black, 0.15f);
                     _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), newColor, 0.5f);
 
+                    var dss = new DepthStencilState();
                     Curve curve = new Curve();
 
                     //_spriteBatch.DrawCircle

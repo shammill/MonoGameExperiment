@@ -88,6 +88,7 @@
     <Compile Include="Input\MouseButton.cs" />
     <Compile Include="Input\MouseExtended.cs" />
     <Compile Include="Input\MouseStateExtended.cs" />
+    <Compile Include="Junk\Junk.cs" />
     <Compile Include="Localization\MainWindowLocal.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
