@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Engine.Graphics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -10,27 +11,27 @@ namespace Engine.Junk
 {
     public class Junk
     {
-        Game _game = new Game();
-        SpriteBatch _spriteBatch;
-        private Texture2D _background;
-        private Texture2D _shape;
+        //Game _game = new Game();
+        //SpriteBatch _spriteBatch;
+        //private Texture2D _background;
+        //private Texture2D _shape;
 
 
         public Junk()
         {
-            _spriteBatch = new SpriteBatch(_game.GraphicsDevice);
-            _background = _game.Content.Load<Texture2D>("01");
-            _shape = _game.Content.Load<Texture2D>("shape");
+            //_spriteBatch = new SpriteBatch(_game.GraphicsDevice);
+            //_background = _game.Content.Load<Texture2D>("01");
+            //_shape = _game.Content.Load<Texture2D>("shape");
         }
 
-        public void RenderToShape()
+        public void RenderToShape(Game _game, SpriteBatch _spriteBatch, Texture2D _background)
         {
             //Create your RenderTarget to be the size and shape you want 
-            RenderTarget2D newImage = new RenderTarget2D(_game.GraphicsDevice, 250, 250, false, SurfaceFormat.Color, DepthFormat.Depth24Stencil8);
+            RenderTarget2D renderTarget2D = new RenderTarget2D(_game.GraphicsDevice, 250, 250, false, SurfaceFormat.Color, DepthFormat.Depth24Stencil8);
 
             //Tell the graphics device that instead of drawing to the screen 
             //you want it to draw onto this new RenderTarget you just created 
-            _game.GraphicsDevice.SetRenderTarget(newImage);
+            _game.GraphicsDevice.SetRenderTarget(renderTarget2D);
             _game.GraphicsDevice.Clear(Color.Transparent);
 
             //Create your alpha effect to be passed into the SpriteBatch 
@@ -55,8 +56,9 @@ namespace Engine.Junk
             _spriteBatch.Begin(SpriteSortMode.Immediate, null, null, stencilStateBefore, null, alphaEffect);
 
             //Draw the shape you want to "cut out" of your original image. 
-            _spriteBatch.Draw(_shape, Vector2.Zero, null, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0.0f);
-
+            //_spriteBatch.Draw(_shape, Vector2.Zero, null, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0.0f);
+            RectangleF rect = new RectangleF(250, 250, 250, 250);
+            _spriteBatch.FillRectangle(rect, Color.Black);
             _spriteBatch.End();
 
             //Next create the Stencil Mask for drawing your original image onto the 
@@ -80,9 +82,9 @@ namespace Engine.Junk
             //Set the graphics device back to drawing on the screen 
             _game.GraphicsDevice.SetRenderTarget(null);
 
-            _spriteBatch.Begin();
-            _spriteBatch.Draw(newImage, new Vector2(500, 500));
-            _spriteBatch.End();
+            //_spriteBatch.Begin();
+            //_spriteBatch.Draw(newImage, new Vector2(500, 500));
+            //_spriteBatch.End();
 
         }
     }

@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Engine.Junk;
 
 namespace Engine.Screens
 {
@@ -204,6 +205,7 @@ namespace Engine.Screens
                     var newColor = new Color(Color.Black, 0.15f);
                     _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), newColor, 0.5f);
 
+
                     //_spriteBatch.DrawCircle
                     // draw coords for debugging
                     //_spriteBatch.DrawPoint(tile.Position.X, tile.Position.Y, Color.Magenta, 6f);
@@ -212,6 +214,9 @@ namespace Engine.Screens
             }
 
             _spriteBatch.End();
+
+            Junk.Junk junk = new Junk.Junk();
+            junk.RenderToShape(_game, _spriteBatch, _background);
         }
 
 
