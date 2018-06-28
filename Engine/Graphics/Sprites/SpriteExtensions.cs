@@ -46,7 +46,7 @@ namespace Engine.Graphics.Sprites
             {
                 var texture = sprite.TextureRegion.Texture;
                 var sourceRectangle = sprite.TextureRegion.Bounds;
-                spriteBatch.Draw(texture, position.Offset(2f), sourceRectangle, color * alpha, rotation, sprite.Origin, scale, sprite.Effect, sprite.Depth);
+                spriteBatch.Draw(texture, position, sourceRectangle, color * alpha, rotation, sprite.Origin, scale, sprite.Effect, sprite.Depth);
             }
 
         }
