@@ -32,6 +32,7 @@ namespace Engine.Screens
         MouseState oldMouseState;
         int lastZIndex = 2;
         float percentageComplete = 0;
+        Junk.Junk junk;
 
         public MainMenuScreen(Game game) : base(game)
         {
@@ -51,6 +52,7 @@ namespace Engine.Screens
             _shape = Content.Load<Texture2D>("shape");
 
             //Font = Content.Load<BitmapFont>("Fonts/montserrat-32");
+            junk = new Junk.Junk(_game, _spriteBatch, _background, _shape);
 
             Size2 tileSize = TileHelper.GetTileSize(_background.Bounds, 12);
             Size2 numberOfPieces = TileHelper.GetTotalNumberOfTiles(_background.Bounds, 12);
@@ -215,8 +217,13 @@ namespace Engine.Screens
 
             _spriteBatch.End();
 
-            Junk.Junk junk = new Junk.Junk();
-            junk.RenderToShape(_game, _spriteBatch, _background);
+            //_spriteBatch.Begin();
+            //RectangleF rect = new RectangleF(250, 250, 250, 250);
+            //_spriteBatch.FillRectangle(rect, Color.Black);
+            //_spriteBatch.End();
+
+            //Junk.Junk junk = new Junk.Junk();
+            junk.RenderToShape();
         }
 
 

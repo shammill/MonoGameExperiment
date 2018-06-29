@@ -14,7 +14,7 @@ namespace Engine.Screens
     public class SplashScreen : Screen
     {
         private SpriteBatch _spriteBatch;
-        private Texture2D _background;
+        private Texture2D _splash;
 
         public SplashScreen(Game game) : base(game)
         {
@@ -25,7 +25,7 @@ namespace Engine.Screens
         {
             base.LoadContent();
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _background = Content.Load<Texture2D>("01");
+            _splash = Content.Load<Texture2D>("splash");
         }
 
         public override void Update(GameTime gameTime)
@@ -44,7 +44,7 @@ namespace Engine.Screens
         {
             GraphicsDevice.Clear(Color.Magenta);
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-            _spriteBatch.Draw(_background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+            _spriteBatch.Draw(_splash, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
             _spriteBatch.End();
         }
     }

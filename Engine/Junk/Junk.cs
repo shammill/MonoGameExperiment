@@ -11,44 +11,64 @@ namespace Engine.Junk
 {
     public class Junk
     {
-        //Game _game = new Game();
-        //SpriteBatch _spriteBatch;
-        //private Texture2D _background;
-        //private Texture2D _shape;
+        Game _game = new Game();
+        SpriteBatch _spriteBatch;
+        private Texture2D _background;
+        private Texture2D _shape;
+        AlphaTestEffect alphaEffect;
+        DepthStencilState stencilStateBefore;
+        DepthStencilState stencilMaskAfter;
 
 
-        public Junk()
+        public Junk(Game game, SpriteBatch spriteBatch, Texture2D background, Texture2D shape)
         {
+            _game = game;
+            _background = background;
+            _shape = shape;
+            _spriteBatch = spriteBatch;
             //_spriteBatch = new SpriteBatch(_game.GraphicsDevice);
-            //_background = _game.Content.Load<Texture2D>("01");
-            //_shape = _game.Content.Load<Texture2D>("shape");
+
+            //Create your alpha effect to be passed into the SpriteBatch 
+            //Note that you ideally want to create this as a static object that always exists 
+            //if you plan on reusing it often 
+            alphaEffect = new AlphaTestEffect(_game.GraphicsDevice);
+            alphaEffect.AlphaFunction = CompareFunction.Greater;
+            alphaEffect.ReferenceAlpha = 0;
+            Matrix projection = Matrix.CreateOrthographicOffCenter(0, 100, 100, 0, 0, 1);
+            alphaEffect.Projection = projection;
+
+            //Create your Stencil Effect 
+            stencilStateBefore = new DepthStencilState();
+            stencilStateBefore.StencilEnable = true;
+            stencilStateBefore.ReferenceStencil = 1;
+            stencilStateBefore.StencilFunction = CompareFunction.Always;
+            stencilStateBefore.StencilPass = StencilOperation.Replace;
+
+            //Next create the Stencil Mask for drawing your original image onto the 
+            //rendertarget. 
+            stencilMaskAfter = new DepthStencilState();
+            stencilMaskAfter.StencilEnable = true;
+            stencilMaskAfter.StencilFunction = CompareFunction.Equal;
+            stencilMaskAfter.ReferenceStencil = 1;
+            stencilMaskAfter.StencilPass = StencilOperation.Keep;
         }
 
-        public void RenderToShape(Game _game, SpriteBatch _spriteBatch, Texture2D _background)
+        public void RenderToShape()
         {
+            _spriteBatch.Begin();
+            //_spriteBatch.Draw(newImage, new Vector2(500, 500));
+            RectangleF rect = new RectangleF(0, 0, 1920, 1080);
+            _spriteBatch.FillRectangle(rect, Color.Red);
+            //_spriteBatch.Draw(_background, Vector2.Zero, null, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0.0f);
+            _spriteBatch.End();
+
             //Create your RenderTarget to be the size and shape you want 
-            RenderTarget2D renderTarget2D = new RenderTarget2D(_game.GraphicsDevice, 250, 250, false, SurfaceFormat.Color, DepthFormat.Depth24Stencil8);
+            RenderTarget2D renderTarget2D = new RenderTarget2D(_game.GraphicsDevice, 100, 100, false, SurfaceFormat.Color, DepthFormat.Depth24Stencil8);
 
             //Tell the graphics device that instead of drawing to the screen 
             //you want it to draw onto this new RenderTarget you just created 
             _game.GraphicsDevice.SetRenderTarget(renderTarget2D);
             _game.GraphicsDevice.Clear(Color.Transparent);
-
-            //Create your alpha effect to be passed into the SpriteBatch 
-            //Note that you ideally want to create this as a static object that always exists 
-            //if you plan on reusing it often 
-            AlphaTestEffect alphaEffect = new AlphaTestEffect(_game.GraphicsDevice);
-            alphaEffect.AlphaFunction = CompareFunction.Greater;
-            alphaEffect.ReferenceAlpha = 0;
-            Matrix projection = Matrix.CreateOrthographicOffCenter(0, _game.GraphicsDevice.PresentationParameters.BackBufferWidth, _game.GraphicsDevice.PresentationParameters.BackBufferHeight, 0, 0, 1);
-            alphaEffect.Projection = projection;
-
-            //Create your Stencil Effect 
-            DepthStencilState stencilStateBefore = new DepthStencilState();
-            stencilStateBefore.StencilEnable = true;
-            stencilStateBefore.ReferenceStencil = 1;
-            stencilStateBefore.StencilFunction = CompareFunction.Always;
-            stencilStateBefore.StencilPass = StencilOperation.Replace;
 
             //Tell the Spritebatch you want to start drawing and pass in stencil and alpha 
             //state objects you just created so it knows exactly HOW you want it to behave 
@@ -56,18 +76,10 @@ namespace Engine.Junk
             _spriteBatch.Begin(SpriteSortMode.Immediate, null, null, stencilStateBefore, null, alphaEffect);
 
             //Draw the shape you want to "cut out" of your original image. 
-            //_spriteBatch.Draw(_shape, Vector2.Zero, null, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0.0f);
-            RectangleF rect = new RectangleF(250, 250, 250, 250);
-            _spriteBatch.FillRectangle(rect, Color.Black);
+            _spriteBatch.Draw(_shape, Vector2.Zero, null, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0.0f);
+            //RectangleF rect = new RectangleF(250, 250, 250, 250);
+            //_spriteBatch.FillRectangle(rect, Color.Black);
             _spriteBatch.End();
-
-            //Next create the Stencil Mask for drawing your original image onto the 
-            //rendertarget. 
-            DepthStencilState stencilMaskAfter = new DepthStencilState();
-            stencilMaskAfter.StencilEnable = true;
-            stencilMaskAfter.StencilFunction = CompareFunction.Equal;
-            stencilMaskAfter.ReferenceStencil = 1;
-            stencilMaskAfter.StencilPass = StencilOperation.Keep;
 
             _spriteBatch.Begin(SpriteSortMode.Immediate, null, null, stencilMaskAfter, null, alphaEffect);
 
@@ -82,10 +94,13 @@ namespace Engine.Junk
             //Set the graphics device back to drawing on the screen 
             _game.GraphicsDevice.SetRenderTarget(null);
 
-            //_spriteBatch.Begin();
+            _spriteBatch.Begin();
             //_spriteBatch.Draw(newImage, new Vector2(500, 500));
-            //_spriteBatch.End();
-
+            //RectangleF rect = new RectangleF(250, 250, 250, 250);
+            //_spriteBatch.FillRectangle(rect, Color.Red);
+            //_spriteBatch.Draw(_background, Vector2.Zero, null, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0.0f);
+            _spriteBatch.End();
+            renderTarget2D.Dispose();
         }
     }
 }
