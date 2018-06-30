@@ -59,6 +59,15 @@ namespace Engine.Screens
 
             GetScale();
             tiles = TileHelper.GenerateTiles(_image, scaleX, scaleY, 10);
+
+            if (true)
+            {
+                TileHelper.RandomlyRotateTiles(tiles);
+            }
+            if (true)
+            {
+                TileHelper.ShuffleTileLocations(tiles);
+            }
         }
 
         public void GetScale()
@@ -199,7 +208,7 @@ namespace Engine.Screens
 
                     // draw coords for debugging
                     if (false) {
-                        _spriteBatch.DrawPoint(tile.Position.X, tile.Position.Y, Color.Magenta, 6f);
+                        _spriteBatch.DrawPoint(tile.Position.X, tile.Position.Y, Color.Magenta, 4f);
                         _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), Color.Blue, 1f);
                     }
                 }

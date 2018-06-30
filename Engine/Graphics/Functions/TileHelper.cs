@@ -1,6 +1,7 @@
 ﻿using Engine.Entities;
 using Engine.Graphics.Sprites;
 using Engine.Graphics.TextureAtlases;
+using Engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -88,10 +89,26 @@ namespace Engine.Graphics.Functions
             return tiles;
         }
 
+        public static void RandomlyRotateTiles(List<Tile> tiles)
+        {
+            foreach (var tile in tiles)
+            {
+                tile.rotation = RotationHelper.GetRandom90DegreeRotation();
+            }
+        }
 
-
-
-
+        public static void ShuffleTileLocations(List<Tile> tiles)
+        {
+            int n = tiles.Count();
+            while (n > 1)
+            {
+                n--;
+                int randomIndex = RandomHelper.Next(n + 1);
+                Vector2 value = tiles[randomIndex].Position;
+                tiles[randomIndex].Position = tiles[n].Position;
+                tiles[n].Position = value;
+            }
+        }
 
 
         //public static List<Segment2> GetStraightHorizontalLines(RectangleF textureSize, Size2 numberOfTilesXY, Size2 tileSize)

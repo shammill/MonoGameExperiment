@@ -14,9 +14,14 @@ namespace Engine.Graphics
             float newRotation = rotation + Constants.Degrees90;
             if (newRotation >= Constants.Degrees360)
                 newRotation = 0f;
-             
+
             return newRotation;
         }
 
+        public static float GetRandom90DegreeRotation()
+        {
+            int random = RandomHelper.Next(4);
+            return Constants.Degrees90 * random;
+        }
     }
 }
