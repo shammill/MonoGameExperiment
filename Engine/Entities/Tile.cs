@@ -15,7 +15,7 @@ namespace Engine.Entities
         public Vector2 Position { get; set; }
         public float rotation;
         public Vector2 scale;
-        public int zIndex = 1;
+        public int zIndex = 2;
 
         // Game Logic
         public Vector2 homePosition;

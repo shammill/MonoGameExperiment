@@ -19,20 +19,25 @@ namespace Engine.Screens
 {
     public class MainMenuScreen : Screen
     {
-        private SpriteBatch _spriteBatch;
-        private Texture2D _background;
-        private Texture2D _shape;
-        List<RectangleF> tileOrigins;
-        List<Tile> tiles;
-        Tile selectedTile;
         Game _game;
+        private SpriteBatch _spriteBatch;
+        MouseState oldMouseState;
+
+
+        // Content
+        private Texture2D _image;
+
+        // Game variables
         float scaleX = 1f;
         float scaleY = 1f;
         float combinedScale = 1f;
-        MouseState oldMouseState;
-        int lastZIndex = 2;
-        float percentageComplete = 0;
-        Junk.Junk junk;
+
+        Color gridlineColor = new Color(Color.Black, 0.15f);
+
+        List<Tile> tiles;
+        Tile selectedTile;
+        int lastZIndex = 3;
+        float percentageComplete = 0f;
 
         public MainMenuScreen(Game game) : base(game)
         {
@@ -48,64 +53,33 @@ namespace Engine.Screens
         {
             base.LoadContent();
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _background = Content.Load<Texture2D>("01");
-            _shape = Content.Load<Texture2D>("shape");
+            _image = Content.Load<Texture2D>("01");
 
             //Font = Content.Load<BitmapFont>("Fonts/montserrat-32");
-            junk = new Junk.Junk(_game, _spriteBatch, _background, _shape);
-
-            Size2 tileSize = TileHelper.GetTileSize(_background.Bounds, 12);
-            Size2 numberOfPieces = TileHelper.GetTotalNumberOfTiles(_background.Bounds, 12);
-            tileOrigins = TileHelper.GetTilePositions(_background.Bounds, numberOfPieces, tileSize);
 
             GetScale();
-            GenerateTiles();
+            tiles = TileHelper.GenerateTiles(_image, scaleX, scaleY, 10);
         }
 
         public void GetScale()
         {
-            if (_background.Bounds.Width > GraphicsDevice.Viewport.Width)
+            if (_image.Bounds.Width > GraphicsDevice.Viewport.Width)
             {
-                scaleX = (float)GraphicsDevice.Viewport.Width / (float)_background.Bounds.Width;
+                scaleX = (float)GraphicsDevice.Viewport.Width / (float)_image.Bounds.Width;
             }
             else
             {
-                scaleX = (float)_background.Bounds.Width / (float)GraphicsDevice.Viewport.Width;
+                scaleX = (float)_image.Bounds.Width / (float)GraphicsDevice.Viewport.Width;
             }
-            if (_background.Bounds.Height > GraphicsDevice.Viewport.Height)
+            if (_image.Bounds.Height > GraphicsDevice.Viewport.Height)
             {
-                scaleY = (float)GraphicsDevice.Viewport.Height / (float)_background.Bounds.Height;
+                scaleY = (float)GraphicsDevice.Viewport.Height / (float)_image.Bounds.Height;
             }
             else
             {
-                scaleY = (float)_background.Bounds.Height / (float)GraphicsDevice.Viewport.Height;
+                scaleY = (float)_image.Bounds.Height / (float)GraphicsDevice.Viewport.Height;
             }
             combinedScale = (scaleX + scaleY) / 2f;
-        }
-
-        public List<Tile> GenerateTiles()
-        {
-            tiles = new List<Tile>();
-            foreach (var tileOrigin in tileOrigins)
-            {
-                float scaledXPosition = tileOrigin.X * scaleX;
-                float scaledYPosition = tileOrigin.Y * scaleY;
-                float scaledWidth = tileOrigin.Width * scaleX;
-                float scaledHeight = tileOrigin.Height * scaleY;
-
-                var tile = new Tile();
-                TextureRegion2D newt2ds = new TextureRegion2D(_background, tileOrigin.ToRectangle());
-                tile.sprite = new Sprite(newt2ds);
-
-                tile.rotation = 0f;
-                tile.Position = new Vector2(scaledXPosition + scaledWidth * 0.5f, scaledYPosition + scaledHeight * 0.5f);
-                tile.scale = new Vector2(scaleX, scaleY);
-                tile.homePosition = tile.Position;
-
-                tiles.Add(tile);
-            }
-            return tiles;
-
         }
 
         public override void Update(GameTime gameTime)
@@ -122,7 +96,6 @@ namespace Engine.Screens
                         selectedTile = tile;
                         tile.Position = mouseState.Position.ToVector2();
                         tile.zIndex = lastZIndex++;
-                        
                         break;
                     }
                 }
@@ -142,6 +115,19 @@ namespace Engine.Screens
                     if (tile.GetBoundingBox().Contains(mouseState.Position) && tile.isHome == false)
                     {
                         tile.rotation = RotationHelper.Rotate90Degrees(tile.rotation);
+
+                        // Handle Snapping
+                        if (tile.rotation == 0f)
+                        {
+                            CircleF circle = new CircleF(tile.homePosition, 20f);
+                            if (circle.Contains(tile.Position))
+                            {
+                                tile.Position = tile.homePosition;
+                                tile.isHome = true;
+                                tile.zIndex = 1;
+                                UpdatePercentageComplete();
+                            }
+                        }
                         break;
                     }
                 }
@@ -173,16 +159,19 @@ namespace Engine.Screens
                 {
                     selectedTile.isHome = false;
                 }
-
                 selectedTile = null;
             }
-
             oldMouseState = mouseState;
         }
 
         public float UpdatePercentageComplete()
         {
-            return tiles.Where(x => x.isHome).Count() / tiles.Count();
+            var numberHome = tiles.Where(x => x.isHome).Count();
+            var numberOfTiles = (float)tiles.Count();
+
+            percentageComplete = numberHome / numberOfTiles * 100;
+
+            return percentageComplete;
         }
 
         public override void Draw(GameTime gameTime)
@@ -196,40 +185,34 @@ namespace Engine.Screens
             {
                 foreach (var tile in tiles.Where(x => x.zIndex == zIndex))
                 {
-
+                    //draw underlying shadow first
                     tile.sprite.DrawShadow(_spriteBatch, tile.Position.Offset(3f), tile.rotation, tile.scale, 0.7f, Color.DimGray);
 
-                    //draw sprite
-                    tile.sprite.Color = Color.White;
+                    //draw sprite/tile piece
                     tile.sprite.Draw(_spriteBatch, tile.Position, tile.rotation, tile.scale);
 
-                    //draw subtle gridlines // TODO: Stop using Rectangle, a jigsaw piece will need to be shaded the same.
-                    var newColor = new Color(Color.Black, 0.15f);
-                    _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), newColor, 0.5f);
+                    //draw subtle gridlines
+                    if (!tile.isHome)
+                    {
+                        _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), gridlineColor, 1f);
+                    }
 
-
-                    //_spriteBatch.DrawCircle
                     // draw coords for debugging
-                    //_spriteBatch.DrawPoint(tile.Position.X, tile.Position.Y, Color.Magenta, 6f);
-                    //_spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), Color.Blue, 1f);
+                    if (false) {
+                        _spriteBatch.DrawPoint(tile.Position.X, tile.Position.Y, Color.Magenta, 6f);
+                        _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), Color.Blue, 1f);
+                    }
                 }
             }
 
             _spriteBatch.End();
-
-            //_spriteBatch.Begin();
-            //RectangleF rect = new RectangleF(250, 250, 250, 250);
-            //_spriteBatch.FillRectangle(rect, Color.Black);
-            //_spriteBatch.End();
-
-            //Junk.Junk junk = new Junk.Junk();
-            junk.RenderToShape();
         }
 
 
         public override void UnloadContent()
         {
             Content.Unload();
+            _image.Dispose();
             Content.Dispose();
 
             base.UnloadContent();
