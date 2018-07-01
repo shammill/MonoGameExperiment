@@ -42,7 +42,7 @@ namespace Engine.Screens
 
         public override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Magenta);
+            GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             _spriteBatch.Draw(_splash, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
             _spriteBatch.End();

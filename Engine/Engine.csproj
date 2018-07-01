@@ -42,6 +42,10 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BitmapFonts\BitmapFont.cs" />
+    <Compile Include="BitmapFonts\BitmapFontExtensions.cs" />
+    <Compile Include="BitmapFonts\BitmapFontReader.cs" />
+    <Compile Include="BitmapFonts\BitmapFontRegion.cs" />
     <Compile Include="Components\SimpleDrawableGameComponent.cs" />
     <Compile Include="Components\SimpleGameComponent.cs" />
     <Compile Include="ContentExtensions\ContentReaderExtensions.cs" />
@@ -105,6 +109,7 @@
     <Compile Include="Registrations\Register.cs" />
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\MainMenuScreen.cs" />
+    <Compile Include="Screens\TileGameScreen.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Managers\ScreenManager.cs" />
     <Compile Include="Screens\SplashScreen.cs" />
