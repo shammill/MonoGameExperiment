@@ -85,8 +85,8 @@
 /build:Fonts/arial-bold-52.spritefont
 
 #begin Fonts/montserrat-32.fnt
-/importer:
-/processor:
+/importer:BitmapFontImporter
+/processor:BitmapFontProcessor
 /build:Fonts/montserrat-32.fnt
 
 #begin Fonts/montserrat-32_0.png
