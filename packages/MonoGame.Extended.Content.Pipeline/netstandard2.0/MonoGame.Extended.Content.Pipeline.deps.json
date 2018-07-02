@@ -1,0 +1,88 @@
+{
+  "runtimeTarget": {
+    "name": ".NETStandard,Version=v2.0/",
+    "signature": "a123fdd460e0cfd759866c2fb7ba73dda94f0ce5"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETStandard,Version=v2.0": {},
+    ".NETStandard,Version=v2.0/": {
+      "MonoGame.Extended.Content.Pipeline/1.0.0": {
+        "dependencies": {
+          "MonoGame.Framework.Content.Pipeline.Portable": "3.6.0.1625",
+          "NETStandard.Library": "2.0.1",
+          "Newtonsoft.Json": "11.0.2"
+        },
+        "runtime": {
+          "MonoGame.Extended.Content.Pipeline.dll": {}
+        }
+      },
+      "Microsoft.NETCore.Platforms/1.1.0": {},
+      "MonoGame.Framework.Content.Pipeline.Portable/3.6.0.1625": {
+        "dependencies": {
+          "MonoGame.Framework.Portable": "3.6.0.1625"
+        },
+        "runtime": {
+          "lib/portable-net45+win8+wpa81/MonoGame.Framework.Content.Pipeline.dll": {}
+        }
+      },
+      "MonoGame.Framework.Portable/3.6.0.1625": {
+        "runtime": {
+          "lib/portable-net45+win8+wpa81/MonoGame.Framework.dll": {}
+        }
+      },
+      "NETStandard.Library/2.0.1": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0"
+        }
+      },
+      "Newtonsoft.Json/11.0.2": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "MonoGame.Extended.Content.Pipeline/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.NETCore.Platforms/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
+      "path": "microsoft.netcore.platforms/1.1.0",
+      "hashPath": "microsoft.netcore.platforms.1.1.0.nupkg.sha512"
+    },
+    "MonoGame.Framework.Content.Pipeline.Portable/3.6.0.1625": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-dS/WmnlceofQehne6V9lCHoKDTF6xOxgCE1CS3U6IbS+7q5qJMtAWxYl41MbbSLk5TMQ9OD5Q3T3gJD+ndMxnA==",
+      "path": "monogame.framework.content.pipeline.portable/3.6.0.1625",
+      "hashPath": "monogame.framework.content.pipeline.portable.3.6.0.1625.nupkg.sha512"
+    },
+    "MonoGame.Framework.Portable/3.6.0.1625": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-8nB63fvq6qya6loDzEzuyw1KgH4ulw33FIciOJl5kCtfXFYJx1o49vvJKC5qcPKQ0AC/kjtPnUjS+AcMoERojg==",
+      "path": "monogame.framework.portable/3.6.0.1625",
+      "hashPath": "monogame.framework.portable.3.6.0.1625.nupkg.sha512"
+    },
+    "NETStandard.Library/2.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-oA6nwv9MhEKYvLpjZ0ggSpb1g4CQViDVQjLUcDWg598jtvJbpfeP2reqwI1GLW2TbxC/Ml7xL6BBR1HmKPXlTg==",
+      "path": "netstandard.library/2.0.1",
+      "hashPath": "netstandard.library.2.0.1.nupkg.sha512"
+    },
+    "Newtonsoft.Json/11.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-IvJe1pj7JHEsP8B8J8DwlMEx8UInrs/x+9oVY+oCD13jpLu4JbJU2WCIsMRn5C4yW9+DgkaO8uiVE5VHKjpmdQ==",
+      "path": "newtonsoft.json/11.0.2",
+      "hashPath": "newtonsoft.json.11.0.2.nupkg.sha512"
+    }
+  }
+}

@@ -9,6 +9,7 @@ using Engine.Screens.Transitions;
 using Microsoft.Xna.Framework.Input;
 using Engine.Input;
 using Engine.BitmapFonts;
+using Engine.Graphics;
 
 namespace Engine.Screens
 {
@@ -20,6 +21,7 @@ namespace Engine.Screens
         List<string> menuItems;
         float centerPoint = 0f;
         BitmapFont Font;
+        float textHalfLenth;
 
 
         public MainMenuScreen(Game game) : base(game)
@@ -27,6 +29,7 @@ namespace Engine.Screens
             menuItems = new List<string>();
             centerPoint = GraphicsDevice.Viewport.Width / 2f;
             Font = Content.Load<BitmapFont>("Fonts/montserrat-32");
+            textHalfLenth = Font.GetStringRectangle("NEW GAME").Width / 2f;
         }
 
         public override void LoadContent()
@@ -46,7 +49,7 @@ namespace Engine.Screens
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             _spriteBatch.Draw(_background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
-            _spriteBatch.DrawString(Font, "Test", new Vector2(centerPoint, 500), Color.White);
+            _spriteBatch.DrawString(Font, "NEW GAME", new Vector2(centerPoint - textHalfLenth, 500), Color.White);
             _spriteBatch.End();
         }
 

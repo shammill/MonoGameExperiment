@@ -9,7 +9,7 @@
 /compress:False
 
 #-------------------------------- References --------------------------------#
-
+/reference:../../packages/MonoGame.Extended.Content.Pipeline/netstandard2.0/MonoGame.Extended.Content.Pipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -25,7 +25,7 @@
 /processorParam:TextureFormat=Color
 /build:Images/01.jpg
 
-#begin Images/MenuBackground.jpg
+#begin Images/MenuBackground.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -35,7 +35,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/MenuBackground.jpg
+/build:Images/MenuBackground.png
 
 #begin Images/splash.png
 /importer:TextureImporter
