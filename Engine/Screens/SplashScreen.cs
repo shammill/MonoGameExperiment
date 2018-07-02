@@ -25,7 +25,7 @@ namespace Engine.Screens
         {
             base.LoadContent();
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _splash = Content.Load<Texture2D>("splash");
+            _splash = Content.Load<Texture2D>("Images/splash");
         }
 
         public override void Update(GameTime gameTime)

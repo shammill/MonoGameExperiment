@@ -24,7 +24,7 @@ namespace Engine.Registrations
 
         public static void LoadTextures(ContentManager Content)
         {
-            var image01 = Content.Load<Texture2D>("01");
+            //var image01 = Content.Load<Texture2D>("01");
         }
 
         public static void LoadSoundEffects(ContentManager Content, SoundEffectManager soundEffectManager)

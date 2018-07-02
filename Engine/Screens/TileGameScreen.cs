@@ -46,7 +46,7 @@ namespace Engine.Screens
         {
             base.LoadContent();
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _image = Content.Load<Texture2D>("01");
+            _image = Content.Load<Texture2D>("Images/01");
 
             GetScale();
             tiles = TileHelper.GenerateTiles(_image, scaleX, scaleY, 10);
