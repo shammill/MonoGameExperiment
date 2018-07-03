@@ -63,7 +63,7 @@ namespace Engine.Screens
             var mouseState = Mouse.GetState();
             if (mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Released)
             {
-                ScreenManager.LoadScreen(new MainMenuScreen(Game), new FadeTransition(GraphicsDevice, Color.Black, 2f));
+                ScreenManager.LoadScreen(new TileGameScreen(Game), new FadeTransition(GraphicsDevice, Color.Black, 2f));
             }
 
             oldMouseState = mouseState;

@@ -20,13 +20,15 @@ namespace Engine.Screens
         // Content
         private Texture2D _image;
 
-        // Game variables
+        // Scale variables
         float scaleX = 1f;
         float scaleY = 1f;
         float combinedScale = 1f;
 
+        // Visual Variables
         Color gridlineColor = new Color(Color.Black, 0.15f);
 
+        // Game Management Variables
         List<Tile> tiles;
         Tile selectedTile;
         int lastZIndex = 3;
@@ -117,7 +119,7 @@ namespace Engine.Screens
                     //draw subtle gridlines
                     if (!tile.isHome)
                     {
-                        _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), gridlineColor, 1f);
+                        _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), gridlineColor);
                     }
 
                     // draw coords and bounding box for debugging
