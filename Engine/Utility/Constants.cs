@@ -14,5 +14,8 @@ namespace Engine.Utility
         public const float Degrees270 = 4.7124f;
         public const float Degrees360 = 6.2832f;
 
+        public const float GameDepthVariance = 0.0001f;
+        public const float MinimumDepthVariance = 0.00001f; // doesnt seem to have a limit.
+
     }
 }

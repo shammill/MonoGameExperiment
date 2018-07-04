@@ -78,7 +78,7 @@ namespace Engine.Graphics.Functions
                 var tile = new Tile();
                 TextureRegion2D newt2ds = new TextureRegion2D(image, tileOrigin.ToRectangle());
                 tile.sprite = new Sprite(newt2ds);
-                tile.sprite.Depth = 0.01f;
+                tile.sprite.Depth = Constants.GameDepthVariance * 2;
 
                 tile.rotation = 0f;
                 tile.Position = new Vector2(scaledXPosition + scaledWidth * 0.5f, scaledYPosition + scaledHeight * 0.5f);

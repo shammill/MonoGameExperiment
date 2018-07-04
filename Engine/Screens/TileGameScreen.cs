@@ -3,6 +3,7 @@ using Engine.Graphics;
 using Engine.Graphics.Functions;
 using Engine.Graphics.Sprites;
 using Engine.Graphics.TextureAtlases;
+using Engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -31,7 +32,7 @@ namespace Engine.Screens
         // Game Management Variables
         List<Tile> tiles;
         Tile selectedTile;
-        float lastZIndex = 0.03f;
+        float lastZIndex = Constants.GameDepthVariance * 3f;
         float percentageComplete = 0f;
 
         public TileGameScreen(Game game) : base(game)
@@ -111,7 +112,7 @@ namespace Engine.Screens
                 foreach (var tile in tiles)//.Where(x => x.zIndex == zIndex))
                 {
                     //draw underlying shadow first
-                    tile.sprite.DrawShadow(_spriteBatch, tile.Position.Offset(3f), tile.rotation, tile.scale, 0.7f, Color.DimGray, 0.01f);
+                    tile.sprite.DrawShadow(_spriteBatch, tile.Position.Offset(3f), tile.rotation, tile.scale, 0.7f, Color.DimGray, depthOffset: Constants.MinimumDepthVariance);
 
                     //draw sprite/tile piece
                     tile.sprite.Draw(_spriteBatch, tile.Position, tile.rotation, tile.scale);
@@ -119,7 +120,7 @@ namespace Engine.Screens
                     //draw subtle gridlines
                     if (!tile.isHome)
                     {
-                        _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), gridlineColor, 1f, tile.sprite.Depth);
+                        _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), gridlineColor, 1f, tile.sprite.Depth + Constants.MinimumDepthVariance);
                     }
 
                     // draw coords and bounding box for debugging
@@ -148,7 +149,7 @@ namespace Engine.Screens
                         selectedTile = tile;
                         tile.Position = mouseState.Position.ToVector2();
                         tile.sprite.Depth = lastZIndex;
-                        lastZIndex = lastZIndex + 0.01f;
+                        lastZIndex = lastZIndex + Constants.GameDepthVariance;
                         break;
                     }
                 }
@@ -177,7 +178,7 @@ namespace Engine.Screens
                             {
                                 tile.Position = tile.homePosition;
                                 tile.isHome = true;
-                                tile.sprite.Depth = 0.01f;
+                                tile.sprite.Depth = Constants.GameDepthVariance;
                                 UpdatePercentageComplete();
                             }
                         }
@@ -204,7 +205,7 @@ namespace Engine.Screens
                     {
                         selectedTile.Position = selectedTile.homePosition;
                         selectedTile.isHome = true;
-                        selectedTile.sprite.Depth = 0.01f;
+                        selectedTile.sprite.Depth = Constants.GameDepthVariance;
                         UpdatePercentageComplete();
                     }
                 }
