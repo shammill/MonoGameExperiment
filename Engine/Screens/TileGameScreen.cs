@@ -31,7 +31,7 @@ namespace Engine.Screens
         // Game Management Variables
         List<Tile> tiles;
         Tile selectedTile;
-        int lastZIndex = 3;
+        float lastZIndex = 0.03f;
         float percentageComplete = 0f;
 
         public TileGameScreen(Game game) : base(game)
@@ -53,11 +53,11 @@ namespace Engine.Screens
             GetScale();
             tiles = TileHelper.GenerateTiles(_image, scaleX, scaleY, 10);
 
-            if (true)
+            if (false)
             {
                 TileHelper.RandomlyRotateTiles(tiles);
             }
-            if (true)
+            if (false)
             {
                 TileHelper.ShuffleTileLocations(tiles);
             }
@@ -102,16 +102,16 @@ namespace Engine.Screens
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.DimGray);
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.FrontToBack);
 
-            List<int> zIndexList = tiles.Select(x => x.zIndex).Distinct().OrderBy(x => x).ToList();
+            ////List<int> zIndexList = tiles.Select(x => x.sprite.Depth zIndex).Distinct().OrderBy(x => x).ToList();
 
-            foreach (var zIndex in zIndexList)
-            {
-                foreach (var tile in tiles.Where(x => x.zIndex == zIndex))
+            ////foreach (var zIndex in zIndexList)
+            ////{
+                foreach (var tile in tiles)//.Where(x => x.zIndex == zIndex))
                 {
                     //draw underlying shadow first
-                    tile.sprite.DrawShadow(_spriteBatch, tile.Position.Offset(3f), tile.rotation, tile.scale, 0.7f, Color.DimGray);
+                    tile.sprite.DrawShadow(_spriteBatch, tile.Position.Offset(3f), tile.rotation, tile.scale, 0.7f, Color.DimGray, 0.01f);
 
                     //draw sprite/tile piece
                     tile.sprite.Draw(_spriteBatch, tile.Position, tile.rotation, tile.scale);
@@ -119,7 +119,7 @@ namespace Engine.Screens
                     //draw subtle gridlines
                     if (!tile.isHome)
                     {
-                        _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), gridlineColor);
+                        _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), gridlineColor, 1f, tile.sprite.Depth);
                     }
 
                     // draw coords and bounding box for debugging
@@ -128,7 +128,7 @@ namespace Engine.Screens
                         _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), Color.Blue, 1f);
                     }
                 }
-            }
+            //}
 
             _spriteBatch.End();
         }
@@ -141,13 +141,14 @@ namespace Engine.Screens
             // if you've just clicked select the current tile
             if (mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Released)
             {
-                foreach (var tile in tiles.Where(x => x.isHome == false).OrderByDescending(x => x.zIndex))
+                foreach (var tile in tiles.Where(x => x.isHome == false).OrderByDescending(x => x.sprite.Depth))
                 {
                     if (tile.GetBoundingBox().Contains(mouseState.Position))
                     {
                         selectedTile = tile;
                         tile.Position = mouseState.Position.ToVector2();
-                        tile.zIndex = lastZIndex++;
+                        tile.sprite.Depth = lastZIndex;
+                        lastZIndex = lastZIndex + 0.01f;
                         break;
                     }
                 }
@@ -162,7 +163,7 @@ namespace Engine.Screens
             // Right Click for Rotation
             if (mouseState.RightButton == ButtonState.Pressed && oldMouseState.RightButton == ButtonState.Released && selectedTile == null)
             {
-                foreach (var tile in tiles.Where(x => x.isHome == false).OrderByDescending(x => x.zIndex))
+                foreach (var tile in tiles.Where(x => x.isHome == false).OrderByDescending(x => x.sprite.Depth))
                 {
                     if (tile.GetBoundingBox().Contains(mouseState.Position) && tile.isHome == false)
                     {
@@ -176,7 +177,7 @@ namespace Engine.Screens
                             {
                                 tile.Position = tile.homePosition;
                                 tile.isHome = true;
-                                tile.zIndex = 1;
+                                tile.sprite.Depth = 0.01f;
                                 UpdatePercentageComplete();
                             }
                         }
@@ -203,7 +204,7 @@ namespace Engine.Screens
                     {
                         selectedTile.Position = selectedTile.homePosition;
                         selectedTile.isHome = true;
-                        selectedTile.zIndex = 1;
+                        selectedTile.sprite.Depth = 0.01f;
                         UpdatePercentageComplete();
                     }
                 }
