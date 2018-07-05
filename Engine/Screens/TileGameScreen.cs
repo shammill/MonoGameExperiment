@@ -35,9 +35,13 @@ namespace Engine.Screens
         float lastZIndex = Constants.GameDepthVariance * 3f;
         float percentageComplete = 0f;
 
-        public TileGameScreen(Game game) : base(game)
+        // Game Settings
+        TileGameSettings gameSettings;
+
+        public TileGameScreen(Game game, TileGameSettings gameSettings) : base(game)
         {
             _game = game;
+            this.gameSettings = gameSettings;
         }
 
         public override void Initialize()
@@ -51,20 +55,24 @@ namespace Engine.Screens
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _image = Content.Load<Texture2D>("Images/01");
 
-            GetScale();
+            GetImageScaleForCurrentScreenResolution();
             tiles = TileHelper.GenerateTiles(_image, scaleX, scaleY, 10);
 
-            if (false)
+            if (gameSettings.randomlyRotateTiles)
             {
                 TileHelper.RandomlyRotateTiles(tiles);
             }
-            if (false)
+            if (gameSettings.randomlySwapTilePositions)
             {
                 TileHelper.ShuffleTileLocations(tiles);
             }
         }
 
-        public void GetScale()
+
+        /// <summary>
+        /// Gets the scale required to fit the game image to the current screen resolution.
+        /// </summary>
+        public void GetImageScaleForCurrentScreenResolution()
         {
             if (_image.Bounds.Width > GraphicsDevice.Viewport.Width)
             {

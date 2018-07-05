@@ -50,6 +50,7 @@
     <Compile Include="Components\SimpleGameComponent.cs" />
     <Compile Include="ContentExtensions\ContentReaderExtensions.cs" />
     <Compile Include="Entities\Tile.cs" />
+    <Compile Include="Entities\TileGameSettings.cs" />
     <Compile Include="Forms\SystemSettings.cs">
       <SubType>Form</SubType>
     </Compile>
