@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Engine.Entities
 {
-    public abstract class TileGameSettings
+    public class SwapperGameSettings : TileGameSettings
     {
         // Tile generation variables
         public int numberOfYTiles = 4; // X axis tile number is generated after based on this tile size to ensure squares.
         public bool randomlyRotateTiles = false;
-        public bool randomlySwapTilePositions = false;
-        public bool randomlyPlaceTiles = true;
+        public bool randomlySwapTilePositions = true;
+        public bool randomlyPlaceTiles = false;
 
         public TileGameMode tileGameType = TileGameMode.Scatter;
 

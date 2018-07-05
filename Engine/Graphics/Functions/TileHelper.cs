@@ -111,6 +111,24 @@ namespace Engine.Graphics.Functions
             }
         }
 
+        public static void RandomlyPlaceTiles(List<Tile> tiles, RectangleF bounds)
+        {
+            var tileBounds = tiles.FirstOrDefault().GetBoundingBox();
+
+            // leave a one tile space margin around the edge of the screen... this wont look good for large sized tile. better to use a percentage? Hmm
+            RectangleF boundsWithMargin = new RectangleF(bounds.X + tileBounds.Width, bounds.Y + tileBounds.Height, bounds.Width - tileBounds.Width * 2, bounds.Height - tileBounds.Height * 2);
+
+            int n = tiles.Count();
+            while (n > 1)
+            {
+                n--;
+                int randomIndex = RandomHelper.Next(n + 1);
+                Vector2 value = tiles[randomIndex].Position;
+                tiles[randomIndex].Position = tiles[n].Position;
+                tiles[n].Position = value;
+            }
+        }
+
 
         //public static List<Segment2> GetStraightHorizontalLines(RectangleF textureSize, Size2 numberOfTilesXY, Size2 tileSize)
         //{

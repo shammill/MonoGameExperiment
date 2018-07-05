@@ -14,6 +14,7 @@ namespace Engine.Screens
 {
     public class TileGameScreen : Screen
     {
+        // Core Components
         Game _game;
         private SpriteBatch _spriteBatch;
         MouseState oldMouseState;
@@ -66,6 +67,10 @@ namespace Engine.Screens
             {
                 TileHelper.ShuffleTileLocations(tiles);
             }
+            if (gameSettings.randomlyPlaceTiles)
+            {
+                TileHelper.RandomlyPlaceTiles(tiles, GraphicsDevice.Viewport.Bounds);
+            }
         }
 
 
@@ -95,7 +100,7 @@ namespace Engine.Screens
 
         public override void Update(GameTime gameTime)
         {
-            HandleInput();
+            HandleInputGameTypeScatter();
         }
 
         public float UpdatePercentageComplete()
@@ -113,37 +118,33 @@ namespace Engine.Screens
             GraphicsDevice.Clear(Color.DimGray);
             _spriteBatch.Begin(SpriteSortMode.FrontToBack);
 
-            ////List<int> zIndexList = tiles.Select(x => x.sprite.Depth zIndex).Distinct().OrderBy(x => x).ToList();
+            foreach (var tile in tiles)
+            {
+                //draw underlying shadow first
+                tile.sprite.DrawShadow(_spriteBatch, tile.Position.Offset(3f), tile.rotation, tile.scale, 0.7f, Color.DimGray, depthOffset: Constants.MinimumDepthVariance);
 
-            ////foreach (var zIndex in zIndexList)
-            ////{
-                foreach (var tile in tiles)//.Where(x => x.zIndex == zIndex))
+                //draw sprite/tile piece
+                tile.sprite.Draw(_spriteBatch, tile.Position, tile.rotation, tile.scale);
+
+                //draw subtle gridlines
+                if (!tile.isHome)
                 {
-                    //draw underlying shadow first
-                    tile.sprite.DrawShadow(_spriteBatch, tile.Position.Offset(3f), tile.rotation, tile.scale, 0.7f, Color.DimGray, depthOffset: Constants.MinimumDepthVariance);
-
-                    //draw sprite/tile piece
-                    tile.sprite.Draw(_spriteBatch, tile.Position, tile.rotation, tile.scale);
-
-                    //draw subtle gridlines
-                    if (!tile.isHome)
-                    {
-                        _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), gridlineColor, 1f, tile.sprite.Depth + Constants.MinimumDepthVariance);
-                    }
-
-                    // draw coords and bounding box for debugging
-                    if (false) {
-                        _spriteBatch.DrawPoint(tile.Position.X, tile.Position.Y, Color.Magenta, 4f);
-                        _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), Color.Blue, 1f);
-                    }
+                    _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), gridlineColor, 1f, tile.sprite.Depth + Constants.MinimumDepthVariance);
                 }
-            //}
+
+                // draw coords and bounding box for debugging
+                if (false)
+                {
+                    _spriteBatch.DrawPoint(tile.Position.X, tile.Position.Y, Color.Magenta, 4f);
+                    _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), Color.Blue, 1f);
+                }
+            }
 
             _spriteBatch.End();
         }
 
 
-        private void HandleInput()
+        private void HandleInputGameTypeScatter()
         {
             var mouseState = Mouse.GetState();
 
