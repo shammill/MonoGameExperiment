@@ -137,6 +137,21 @@ namespace Engine.Graphics
             spriteBatch.Draw(texture, bottomLeft, scale: horizontalScale, color: color);
         }
 
+        public static void DrawRectangle(this SpriteBatch spriteBatch, RectangleF rectangle, Color color, float thickness = 1f, float depth = 0.0f)
+        {
+            var texture = GetTexture(spriteBatch);
+            var topLeft = new Vector2(rectangle.X, rectangle.Y);
+            var topRight = new Vector2(rectangle.Right - thickness, rectangle.Y);
+            var bottomLeft = new Vector2(rectangle.X, rectangle.Bottom - thickness);
+            var horizontalScale = new Vector2(rectangle.Width, thickness);
+            var verticalScale = new Vector2(thickness, rectangle.Height);
+
+            spriteBatch.Draw(texture, topLeft, scale: horizontalScale, color: color, layerDepth: depth);
+            spriteBatch.Draw(texture, topLeft, scale: verticalScale, color: color, layerDepth: depth);
+            spriteBatch.Draw(texture, topRight, scale: verticalScale, color: color, layerDepth: depth);
+            spriteBatch.Draw(texture, bottomLeft, scale: horizontalScale, color: color, layerDepth: depth);
+        }
+
         /// <summary>
         ///     Draws a rectangle with the thickness provided
         /// </summary>

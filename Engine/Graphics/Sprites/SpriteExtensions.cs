@@ -33,12 +33,14 @@ namespace Engine.Graphics.Sprites
             }
         }
 
-        public static void DrawShadow(this Sprite sprite, SpriteBatch spriteBatch, Vector2 position, float rotation, Vector2 scale, float alpha, Color color)
+
+        //Draw Shadow
+        public static void DrawShadow(this Sprite sprite, SpriteBatch spriteBatch, Vector2 position, float rotation, Vector2 scale, float alpha, Color color, float depthOffset)
         {
-            DrawShadow(spriteBatch, sprite, position, rotation, scale, alpha, color);
+            DrawShadow(spriteBatch, sprite, position, rotation, scale, alpha, color, depthOffset);
         }
 
-        public static void DrawShadow(this SpriteBatch spriteBatch, Sprite sprite, Vector2 position, float rotation, Vector2 scale, float alpha, Color color)
+        public static void DrawShadow(this SpriteBatch spriteBatch, Sprite sprite, Vector2 position, float rotation, Vector2 scale, float alpha, Color color, float depthOffset)
         {
             if (sprite == null) throw new ArgumentNullException(nameof(sprite));
 
@@ -46,7 +48,7 @@ namespace Engine.Graphics.Sprites
             {
                 var texture = sprite.TextureRegion.Texture;
                 var sourceRectangle = sprite.TextureRegion.Bounds;
-                spriteBatch.Draw(texture, position, sourceRectangle, color * alpha, rotation, sprite.Origin, scale, sprite.Effect, sprite.Depth);
+                spriteBatch.Draw(texture, position, sourceRectangle, color * alpha, rotation, sprite.Origin, scale, sprite.Effect, sprite.Depth - depthOffset);
             }
 
         }
