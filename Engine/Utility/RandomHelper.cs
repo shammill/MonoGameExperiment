@@ -20,6 +20,11 @@ namespace Engine.Utility
             return Random.Next(maxValue);
         }
 
+        public static int Next(int minValue, int maxValue)
+        {
+            return Random.Next(minValue, maxValue);
+        }
+
         public static bool NextBool()
         {
             return (Random.Next(0, 2) > 0);

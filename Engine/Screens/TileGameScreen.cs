@@ -39,6 +39,10 @@ namespace Engine.Screens
         // Game Settings
         TileGameSettings gameSettings;
 
+        // Debugging objects
+        RectangleF debugRectangle;
+        bool debugMode = true;
+
         public TileGameScreen(Game game, TileGameSettings gameSettings) : base(game)
         {
             _game = game;
@@ -57,7 +61,7 @@ namespace Engine.Screens
             _image = Content.Load<Texture2D>("Images/01");
 
             GetImageScaleForCurrentScreenResolution();
-            tiles = TileHelper.GenerateTiles(_image, scaleX, scaleY, 10);
+            tiles = TileHelper.GenerateTiles(_image, scaleX, scaleY, gameSettings.numberOfYTiles);
 
             if (gameSettings.randomlyRotateTiles)
             {
@@ -69,7 +73,7 @@ namespace Engine.Screens
             }
             if (gameSettings.randomlyPlaceTiles)
             {
-                TileHelper.RandomlyPlaceTiles(tiles, GraphicsDevice.Viewport.Bounds);
+                TileHelper.RandomlyPlaceTiles(tiles, GraphicsDevice.Viewport.Bounds, ref lastZIndex, out debugRectangle);
             }
         }
 
@@ -133,11 +137,16 @@ namespace Engine.Screens
                 }
 
                 // draw coords and bounding box for debugging
-                if (false)
+                if (debugMode)
                 {
                     _spriteBatch.DrawPoint(tile.Position.X, tile.Position.Y, Color.Magenta, 4f);
                     _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), Color.Blue, 1f);
                 }
+            }
+
+            if (debugMode)
+            {
+                _spriteBatch.DrawRectangle(debugRectangle, Color.Blue, 2f);
             }
 
             _spriteBatch.End();
