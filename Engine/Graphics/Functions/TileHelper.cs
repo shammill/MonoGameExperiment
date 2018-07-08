@@ -117,21 +117,17 @@ namespace Engine.Graphics.Functions
 
             var xBoundsMin = bounds.X + (tileBounds.Width / 2);
             var yBoundsMin = bounds.Y + (tileBounds.Height /2);
-            var xBoundsMax = bounds.Width - tileBounds.Width /2;
-            var yBoundsMax = bounds.Height - tileBounds.Height /2;
-            RectangleF boundsWithMargin = new RectangleF(xBoundsMin, yBoundsMin, xBoundsMax, yBoundsMax);
+            var xBoundsMax = bounds.Width - (tileBounds.Height / 2);
+            var yBoundsMax = bounds.Height - (tileBounds.Height / 2);
+            RectangleF boundsWithMargin = new RectangleF(xBoundsMin, yBoundsMin, xBoundsMax - (tileBounds.Height / 2), yBoundsMax - (tileBounds.Height / 2));
             outRect = boundsWithMargin;
-            var randomXMin = boundsWithMargin.X;
-            var randomYMin = boundsWithMargin.Y;
-            var randomXMax = boundsWithMargin.Width;
-            var randomYMax = boundsWithMargin.Height;
 
             // Adjust depth so randomly placed tiles arent on the exact same level.
             var depth = Constants.GameDepthVariance;
             foreach (var tile in tiles)
             {
-                var randomX = RandomHelper.Next((int)randomXMin, (int)randomXMax);
-                var randomY = RandomHelper.Next((int)randomYMin, (int)randomYMax);
+                var randomX = RandomHelper.Next((int)xBoundsMin, (int)xBoundsMax);
+                var randomY = RandomHelper.Next((int)yBoundsMin, (int)yBoundsMax);
                 tile.Position = new Vector2(randomX, randomY);
                 tile.sprite.Depth = depth;
                 depth += Constants.GameDepthVariance;
