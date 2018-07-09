@@ -222,19 +222,19 @@ namespace Engine.Graphics
         /// <summary>
         ///     Draws a point at the specified x, y position. The center of the point will be at the position.
         /// </summary>
-        public static void DrawPoint(this SpriteBatch spriteBatch, float x, float y, Color color, float size = 1f)
+        public static void DrawPoint(this SpriteBatch spriteBatch, float x, float y, Color color, float size = 1f, float depth = 0f)
         {
-            DrawPoint(spriteBatch, new Vector2(x, y), color, size);
+            DrawPoint(spriteBatch, new Vector2(x, y), color, size, depth);
         }
 
         /// <summary>
         ///     Draws a point at the specified position. The center of the point will be at the position.
         /// </summary>
-        public static void DrawPoint(this SpriteBatch spriteBatch, Vector2 position, Color color, float size = 1f)
+        public static void DrawPoint(this SpriteBatch spriteBatch, Vector2 position, Color color, float size = 1f, float depth = 0f)
         {
             var scale = Vector2.One * size;
             var offset = new Vector2(0.5f) - new Vector2(size * 0.5f);
-            spriteBatch.Draw(GetTexture(spriteBatch), position + offset, color: color, scale: scale);
+            spriteBatch.Draw(GetTexture(spriteBatch), position + offset, color: color, scale: scale, layerDepth: depth);
         }
 
         /// <summary>

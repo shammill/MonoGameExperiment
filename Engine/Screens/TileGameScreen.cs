@@ -30,11 +30,12 @@ namespace Engine.Screens
 
         // Visual Variables
         Color gridlineColor = new Color(Color.Black, 0.15f);
-        List<RectangleF> gridLines ;
+        List<RectangleF> gridLines;
 
         // Game Management Variables
         List<Tile> tiles;
         Tile selectedTile;
+        Tile shadowTile;
         float lastZIndex = Constants.Depth.GameDepthVariance * 3f;
         float percentageComplete = 0f;
 
@@ -43,7 +44,7 @@ namespace Engine.Screens
 
         // Debugging objects
         RectangleF debugRectangle;
-        bool debugMode = true;
+        bool debugMode = false;
 
         public TileGameScreen(Game game, TileGameSettings gameSettings) : base(game)
         {
@@ -107,7 +108,12 @@ namespace Engine.Screens
 
         public override void Update(GameTime gameTime)
         {
-            HandleInputGameTypeScatter();
+            if (gameSettings.tileGameType == TileGameMode.Scatter)
+                HandleInputGameTypeScatter();
+            if (gameSettings.tileGameType == TileGameMode.Shuffle)
+                HandleInputGameTypeShuffle();
+            if (gameSettings.tileGameType == TileGameMode.Swapper)
+                HandleInputGameTypeSwapper();
         }
 
         public float UpdatePercentageComplete()
@@ -129,10 +135,9 @@ namespace Engine.Screens
             {
                 foreach (var gridline in gridLines)
                 {
-                    _spriteBatch.DrawRectangle(gridline, gridlineColor, 1f, Constants.Depth.MinimumDepthVariance);
+                    _spriteBatch.DrawRectangle(gridline, gridlineColor, 0.5f, Constants.Depth.MinimumDepthVariance);
                 }
             }
-
 
             foreach (var tile in tiles)
             {
@@ -151,11 +156,12 @@ namespace Engine.Screens
                 // draw coords and bounding box for debugging
                 if (debugMode)
                 {
-                    _spriteBatch.DrawPoint(tile.Position.X, tile.Position.Y, Color.Magenta, 4f);
-                    _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), Color.Blue, 1f);
+                    _spriteBatch.DrawPoint(tile.Position.X, tile.Position.Y, Color.Magenta, 4f, depth: 1.0f);
+                    _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), Color.Blue, 1f, depth: 1.0f);
                 }
             }
 
+            // Draw rectangle wherein randomly placed tiles can land.
             if (debugMode)
             {
                 _spriteBatch.DrawRectangle(debugRectangle, Color.Blue, 2f);
@@ -192,7 +198,7 @@ namespace Engine.Screens
             }
 
             // Right Click for Rotation
-            if (mouseState.RightButton == ButtonState.Pressed && oldMouseState.RightButton == ButtonState.Released && selectedTile == null)
+            if (gameSettings.randomlyRotateTiles && mouseState.RightButton == ButtonState.Pressed && oldMouseState.RightButton == ButtonState.Released && selectedTile == null)
             {
                 foreach (var tile in tiles.Where(x => x.isHome == false).OrderByDescending(x => x.sprite.Depth))
                 {
@@ -218,7 +224,7 @@ namespace Engine.Screens
             }
 
             // Right Click for Rotation while holding left click and having a tile selected
-            if (mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Pressed && selectedTile != null
+            if (gameSettings.randomlyRotateTiles && mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Pressed && selectedTile != null
                 && mouseState.RightButton == ButtonState.Pressed && oldMouseState.RightButton == ButtonState.Released)
             {
                 selectedTile.rotation = RotationHelper.Rotate90Degrees(selectedTile.rotation);
@@ -248,6 +254,135 @@ namespace Engine.Screens
             oldMouseState = mouseState;
         }
 
+        private void HandleInputGameTypeShuffle()
+        {
+            var mouseState = Mouse.GetState();
+
+            // if you've just clicked select the current tile
+            if (mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Released)
+            {
+                foreach (var tile in tiles.Where(x => x.isHome == false).OrderByDescending(x => x.sprite.Depth))
+                {
+                    if (tile.GetBoundingBox().Contains(mouseState.Position))
+                    {
+                        RectangleF shadowTileHitBox = shadowTile.GetBoundingBox();
+                        // add bounds
+                        //check hit.
+                        if (true) // if close to shadowTile
+                        {
+                            Vector2 selectedTilePosition = tile.Position;
+                            tile.Position = shadowTile.Position;
+                            shadowTile.Position = selectedTilePosition;
+                            selectedTile = null;
+                        }
+                        break;
+                    }
+                }
+            }
+
+            // Right Click for Rotation
+            if (gameSettings.randomlyRotateTiles && mouseState.RightButton == ButtonState.Pressed && oldMouseState.RightButton == ButtonState.Released && selectedTile == null)
+            {
+                foreach (var tile in tiles.Where(x => x.isHome == false).OrderByDescending(x => x.sprite.Depth))
+                {
+                    if (tile.GetBoundingBox().Contains(mouseState.Position) && tile.isHome == false)
+                    {
+                        tile.rotation = RotationHelper.Rotate90Degrees(tile.rotation);
+
+                        // Handle Snapping
+                        if (tile.rotation == 0f)
+                        {
+                            CircleF circle = new CircleF(tile.homePosition, 20f);
+                            if (circle.Contains(tile.Position))
+                            {
+                                tile.Position = tile.homePosition;
+                                tile.isHome = true;
+                                tile.sprite.Depth = Constants.Depth.GameDepthVariance;
+                                UpdatePercentageComplete();
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+
+            // Right Click for Rotation while holding left click and having a tile selected
+            if (gameSettings.randomlyRotateTiles && mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Pressed && selectedTile != null
+                && mouseState.RightButton == ButtonState.Pressed && oldMouseState.RightButton == ButtonState.Released)
+            {
+                selectedTile.rotation = RotationHelper.Rotate90Degrees(selectedTile.rotation);
+            }
+
+            oldMouseState = mouseState;
+        }
+
+        private void HandleInputGameTypeSwapper()
+        {
+            var mouseState = Mouse.GetState();
+
+            // if you've just clicked select the current tile
+            if (mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Released)
+            {
+                foreach (var tile in tiles.Where(x => x.isHome == false).OrderByDescending(x => x.sprite.Depth))
+                {
+                    if (tile.GetBoundingBox().Contains(mouseState.Position))
+                    {
+                        // If No tile is selected, select the tile.
+                        if (selectedTile == null)
+                        {
+                            selectedTile = tile;
+                        }
+                        else if (selectedTile.Position == tile.Position)
+                        {
+                            selectedTile = null;
+                        }
+                        else //swap tile positions and deselect Tile.
+                        {
+                            Vector2 selectedTilePosition = selectedTile.Position;
+                            selectedTile.Position = tile.Position;
+                            tile.Position = selectedTilePosition;
+                            selectedTile = null;
+                        }
+                        break;
+                    }
+                }
+            }
+
+            // Right Click for Rotation
+            if (gameSettings.randomlyRotateTiles && mouseState.RightButton == ButtonState.Pressed && oldMouseState.RightButton == ButtonState.Released && selectedTile == null)
+            {
+                foreach (var tile in tiles.Where(x => x.isHome == false).OrderByDescending(x => x.sprite.Depth))
+                {
+                    if (tile.GetBoundingBox().Contains(mouseState.Position) && tile.isHome == false)
+                    {
+                        tile.rotation = RotationHelper.Rotate90Degrees(tile.rotation);
+
+                        // Handle Snapping
+                        if (tile.rotation == 0f)
+                        {
+                            CircleF circle = new CircleF(tile.homePosition, 20f);
+                            if (circle.Contains(tile.Position))
+                            {
+                                tile.Position = tile.homePosition;
+                                tile.isHome = true;
+                                tile.sprite.Depth = Constants.Depth.GameDepthVariance;
+                                UpdatePercentageComplete();
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+
+            // Right Click for Rotation while holding left click and having a tile selected
+            if (gameSettings.randomlyRotateTiles && mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Pressed && selectedTile != null
+                && mouseState.RightButton == ButtonState.Pressed && oldMouseState.RightButton == ButtonState.Released)
+            {
+                selectedTile.rotation = RotationHelper.Rotate90Degrees(selectedTile.rotation);
+            }
+
+            oldMouseState = mouseState;
+        }
 
         public override void UnloadContent()
         {
