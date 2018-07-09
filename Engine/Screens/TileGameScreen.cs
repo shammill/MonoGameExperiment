@@ -1,4 +1,5 @@
-﻿using Engine.Entities;
+﻿using Engine.Content;
+using Engine.Entities;
 using Engine.Graphics;
 using Engine.Graphics.Functions;
 using Engine.Graphics.Sprites;
@@ -29,11 +30,12 @@ namespace Engine.Screens
 
         // Visual Variables
         Color gridlineColor = new Color(Color.Black, 0.15f);
+        List<RectangleF> gridLines ;
 
         // Game Management Variables
         List<Tile> tiles;
         Tile selectedTile;
-        float lastZIndex = Constants.GameDepthVariance * 3f;
+        float lastZIndex = Constants.Depth.GameDepthVariance * 3f;
         float percentageComplete = 0f;
 
         // Game Settings
@@ -58,10 +60,11 @@ namespace Engine.Screens
         {
             base.LoadContent();
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _image = Content.Load<Texture2D>("Images/01");
+            _image = Content.Load<Texture2D>(ContentPaths.Textures.Cat01);
 
             GetImageScaleForCurrentScreenResolution();
             tiles = TileHelper.GenerateTiles(_image, scaleX, scaleY, gameSettings.numberOfYTiles);
+            gridLines = tiles.Select(x => x.GetBoundingBox()).ToList();
 
             if (gameSettings.randomlyRotateTiles)
             {
@@ -122,10 +125,19 @@ namespace Engine.Screens
             GraphicsDevice.Clear(Color.DimGray);
             _spriteBatch.Begin(SpriteSortMode.FrontToBack);
 
+            if (true)
+            {
+                foreach (var gridline in gridLines)
+                {
+                    _spriteBatch.DrawRectangle(gridline, gridlineColor, 1f, Constants.Depth.MinimumDepthVariance);
+                }
+            }
+
+
             foreach (var tile in tiles)
             {
                 //draw underlying shadow first
-                tile.sprite.DrawShadow(_spriteBatch, tile.Position.Offset(3f), tile.rotation, tile.scale, 0.7f, Color.DimGray, depthOffset: Constants.MinimumDepthVariance);
+                tile.sprite.DrawShadow(_spriteBatch, tile.Position.Offset(3f), tile.rotation, tile.scale, 0.7f, Color.DimGray, depthOffset: Constants.Depth.MinimumDepthVariance);
 
                 //draw sprite/tile piece
                 tile.sprite.Draw(_spriteBatch, tile.Position, tile.rotation, tile.scale);
@@ -133,7 +145,7 @@ namespace Engine.Screens
                 //draw subtle gridlines
                 if (!tile.isHome)
                 {
-                    _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), gridlineColor, 1f, tile.sprite.Depth + Constants.MinimumDepthVariance);
+                    _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), gridlineColor, 1f, tile.sprite.Depth + Constants.Depth.MinimumDepthVariance);
                 }
 
                 // draw coords and bounding box for debugging
@@ -167,7 +179,7 @@ namespace Engine.Screens
                         selectedTile = tile;
                         tile.Position = mouseState.Position.ToVector2();
                         tile.sprite.Depth = lastZIndex;
-                        lastZIndex = lastZIndex + Constants.GameDepthVariance;
+                        lastZIndex = lastZIndex + Constants.Depth.GameDepthVariance;
                         break;
                     }
                 }
@@ -196,7 +208,7 @@ namespace Engine.Screens
                             {
                                 tile.Position = tile.homePosition;
                                 tile.isHome = true;
-                                tile.sprite.Depth = Constants.GameDepthVariance;
+                                tile.sprite.Depth = Constants.Depth.GameDepthVariance;
                                 UpdatePercentageComplete();
                             }
                         }
@@ -223,7 +235,7 @@ namespace Engine.Screens
                     {
                         selectedTile.Position = selectedTile.homePosition;
                         selectedTile.isHome = true;
-                        selectedTile.sprite.Depth = Constants.GameDepthVariance;
+                        selectedTile.sprite.Depth = Constants.Depth.GameDepthVariance;
                         UpdatePercentageComplete();
                     }
                 }

@@ -78,7 +78,7 @@ namespace Engine.Graphics.Functions
                 var tile = new Tile();
                 TextureRegion2D newt2ds = new TextureRegion2D(image, tileOrigin.ToRectangle());
                 tile.sprite = new Sprite(newt2ds);
-                tile.sprite.Depth = Constants.GameDepthVariance * 2;
+                tile.sprite.Depth = Constants.Depth.GameDepthVariance * 2;
 
                 tile.rotation = 0f;
                 tile.Position = new Vector2(scaledXPosition + scaledWidth * 0.5f, scaledYPosition + scaledHeight * 0.5f);
@@ -123,14 +123,14 @@ namespace Engine.Graphics.Functions
             outRect = boundsWithMargin;
 
             // Adjust depth so randomly placed tiles arent on the exact same level.
-            var depth = Constants.GameDepthVariance;
+            var depth = Constants.Depth.GameDepthVariance;
             foreach (var tile in tiles)
             {
                 var randomX = RandomHelper.Next((int)xBoundsMin, (int)xBoundsMax);
                 var randomY = RandomHelper.Next((int)yBoundsMin, (int)yBoundsMax);
                 tile.Position = new Vector2(randomX, randomY);
                 tile.sprite.Depth = depth;
-                depth += Constants.GameDepthVariance;
+                depth += Constants.Depth.GameDepthVariance;
             }
             maxDepth = depth;
         }

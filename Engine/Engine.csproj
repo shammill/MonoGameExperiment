@@ -49,6 +49,7 @@
     <Compile Include="Components\SimpleDrawableGameComponent.cs" />
     <Compile Include="Components\SimpleGameComponent.cs" />
     <Compile Include="ContentExtensions\ContentReaderExtensions.cs" />
+    <Compile Include="Content\ContentPaths.cs" />
     <Compile Include="Entities\Tile.cs" />
     <Compile Include="Entities\TileGameModeEnum.cs" />
     <Compile Include="Entities\TileGameModes\ShuffleGameSettings.cs" />
