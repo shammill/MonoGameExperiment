@@ -79,6 +79,12 @@ namespace Engine.Screens
             {
                 TileHelper.RandomlyPlaceTiles(tiles, GraphicsDevice.Viewport.Bounds, ref lastZIndex, out debugRectangle);
             }
+            if (gameSettings.tileGameType == TileGameMode.Shuffle)
+            {
+                var randomTileNumber = RandomHelper.Next(tiles.Count());
+                shadowTile = tiles[randomTileNumber];
+                shadowTile.sprite.Alpha = 1.0f;
+            }
         }
 
 
@@ -266,9 +272,21 @@ namespace Engine.Screens
                     if (tile.GetBoundingBox().Contains(mouseState.Position))
                     {
                         RectangleF shadowTileHitBox = shadowTile.GetBoundingBox();
-                        // add bounds
-                        //check hit.
-                        if (true) // if close to shadowTile
+                        var minX = shadowTileHitBox.X - (shadowTileHitBox.Width * 1.1f);
+                        var minY = shadowTileHitBox.Y - (shadowTileHitBox.Height * 1.1f);
+                        var maxX = shadowTileHitBox.X + shadowTileHitBox.Width + (shadowTileHitBox.Width * 1.1f);
+                        var maxY = shadowTileHitBox.Y + shadowTileHitBox.Height + (shadowTileHitBox.Height * 1.1f);
+
+                        if (minX < 0)
+                            minX = 0;
+                        if (minY < 0)
+                            minY = 0;
+
+                        var width = maxX - minX;
+                        var height = maxY - minY;
+
+                        RectangleF extendedHitbox = new RectangleF(minX, minY, width, height);
+                        if (extendedHitbox.Contains(tile.GetBoundingBox().Center)) // if close to shadowTile
                         {
                             Vector2 selectedTilePosition = tile.Position;
                             tile.Position = shadowTile.Position;
