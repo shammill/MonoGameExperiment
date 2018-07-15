@@ -137,8 +137,7 @@ namespace Engine.Screens
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.DimGray);
-            var blendState = new BlendState();
-            _spriteBatch.Begin(SpriteSortMode.FrontToBack, blendState: new BlendState());
+            _spriteBatch.Begin(SpriteSortMode.FrontToBack);
 
             if (true)
             {
