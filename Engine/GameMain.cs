@@ -10,6 +10,7 @@ using Engine.Screens;
 using Engine.Managers;
 using Engine.Registrations;
 using Engine.Screens.Transitions;
+using Engine.Entities;
 
 namespace Engine
 {
@@ -96,7 +97,8 @@ namespace Engine
             //    Position = viewportAdapter.Center.ToVector2()
             //};
 
-            screenManager.LoadScreen(new SplashScreen(this), new FadeTransition(GraphicsDevice, Color.Black, 0.5f));
+            //screenManager.LoadScreen(new SplashScreen(this), new FadeTransition(GraphicsDevice, Color.Black, 0.5f));
+            screenManager.LoadScreen(new TileGameScreen(this, new SwapperGameSettings()), new FadeTransition(GraphicsDevice, Color.Black, 0.5f));
         }
 
         /// <summary>

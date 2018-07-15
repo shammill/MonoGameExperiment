@@ -36,6 +36,7 @@ namespace Engine.Screens
         List<Tile> tiles;
         Tile selectedTile;
         Tile shadowTile;
+        //int shadowTileIndex;
         float lastZIndex = Constants.Depth.GameDepthVariance * 3f;
         float percentageComplete = 0f;
 
@@ -81,9 +82,10 @@ namespace Engine.Screens
             }
             if (gameSettings.tileGameType == TileGameMode.Shuffle)
             {
-                var randomTileNumber = RandomHelper.Next(tiles.Count());
-                shadowTile = tiles[randomTileNumber];
-                shadowTile.sprite.Alpha = 1.0f;
+                int shadowTileIndex = RandomHelper.Next(tiles.Count());
+                tiles[shadowTileIndex].sprite.Alpha = 0.0f;
+                tiles[shadowTileIndex].sprite.IsVisible = false;
+                shadowTile = tiles[shadowTileIndex];
             }
         }
 
@@ -135,7 +137,8 @@ namespace Engine.Screens
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.DimGray);
-            _spriteBatch.Begin(SpriteSortMode.FrontToBack);
+            var blendState = new BlendState();
+            _spriteBatch.Begin(SpriteSortMode.FrontToBack, blendState: new BlendState());
 
             if (true)
             {

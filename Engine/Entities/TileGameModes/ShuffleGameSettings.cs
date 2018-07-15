@@ -8,12 +8,20 @@ namespace Engine.Entities
 {
     public class ShuffleGameSettings : TileGameSettings
     {
-        // Tile generation variables
-        new public int numberOfYTiles = 4; // X axis tile number is generated after based on this tile size to ensure squares.
-        new public bool randomlyRotateTiles = false;
-        new public bool randomlySwapTilePositions = true;
-        new public bool randomlyPlaceTiles = false;
+        public override int numberOfYTiles { get; set; } // X axis tile number is generated after based on this tile size to ensure squares.
+        public override bool randomlyRotateTiles { get; set; }
+        public override bool randomlySwapTilePositions { get; set; }
+        public override bool randomlyPlaceTiles { get; set; }
 
-        new public TileGameMode tileGameType = TileGameMode.Shuffle;
+        public override TileGameMode tileGameType { get; set; }
+
+        public ShuffleGameSettings()
+        {
+            numberOfYTiles = 4;
+            randomlyRotateTiles = false;
+            randomlySwapTilePositions = true;
+            randomlyPlaceTiles = false;
+            tileGameType = TileGameMode.Shuffle;
+        }
     }
 }

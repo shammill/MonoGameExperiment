@@ -8,13 +8,19 @@ namespace Engine.Entities
 {
     public class ScatterGameSettings : TileGameSettings
     {
-        // Tile generation variables
-        new public int numberOfYTiles = 4; // X axis tile number is generated after based on this tile size to ensure squares.
-        new public bool randomlyRotateTiles = false;
-        new public bool randomlySwapTilePositions = false;
-        new public bool randomlyPlaceTiles = true;
+        public override int numberOfYTiles { get; set; } // X axis tile number is generated after based on this tile size to ensure squares.
+        public override bool randomlyRotateTiles { get; set; }
+        public override bool randomlySwapTilePositions { get; set; }
+        public override bool randomlyPlaceTiles { get; set; }
+        public override TileGameMode tileGameType { get; set; }
 
-        new public TileGameMode tileGameType = TileGameMode.Scatter;
-
+        public ScatterGameSettings()
+        {
+            numberOfYTiles = 4;
+            randomlyRotateTiles = false;
+            randomlySwapTilePositions = false;
+            randomlyPlaceTiles = true;
+            tileGameType = TileGameMode.Scatter;
+        }
     }
 }
