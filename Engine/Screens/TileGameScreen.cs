@@ -30,6 +30,7 @@ namespace Engine.Screens
 
         // Visual Variables
         Color gridlineColor = new Color(Color.Black, 0.15f);
+        Color selectedTileColor = new Color(Color.Yellow, 0.5f);
         List<RectangleF> gridLines;
 
         // Game Management Variables
@@ -159,6 +160,12 @@ namespace Engine.Screens
                 if (!tile.isHome)
                 {
                     _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), gridlineColor, 1f, tile.sprite.Depth + Constants.Depth.MinimumDepthVariance);
+                }
+
+                // Show selectedTile as highlighted
+                if (selectedTile != null && (gameSettings.tileGameType == TileGameMode.Swapper) && tile == selectedTile)
+                {
+                    _spriteBatch.DrawRectangle(tile.sprite.GetBoundingRectangle(tile.Position, tile.rotation, tile.scale), selectedTileColor, 3f, tile.sprite.Depth + Constants.Depth.MinimumDepthVariance);
                 }
 
                 // draw coords and bounding box for debugging
