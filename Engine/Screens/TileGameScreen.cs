@@ -294,8 +294,11 @@ namespace Engine.Screens
                         var width = maxX - minX;
                         var height = maxY - minY;
 
-                        RectangleF extendedHitbox = new RectangleF(minX, minY, width, height);
-                        if (extendedHitbox.Contains(tile.GetBoundingBox().Center)) // if close to shadowTile
+                        // Two hitboxes create a + shape hitbox to exclude diagonals.
+                        RectangleF extendedHitboxX = new RectangleF(minX, shadowTileHitBox.Y, width, shadowTileHitBox.Height);
+                        RectangleF extendedHitboxY = new RectangleF(shadowTileHitBox.X, minY, shadowTileHitBox.Width, height);
+
+                        if (extendedHitboxX.Contains(tile.GetBoundingBox().Center) || extendedHitboxY.Contains(tile.GetBoundingBox().Center)) // if close to shadowTile
                         {
                             Vector2 selectedTilePosition = tile.Position;
                             tile.Position = shadowTile.Position;
