@@ -64,6 +64,7 @@
     </Compile>
     <Compile Include="Graphics\BoundingRectangle.cs" />
     <Compile Include="Graphics\CircleF.cs" />
+    <Compile Include="Graphics\Fonts\FontHelper.cs" />
     <Compile Include="Graphics\Functions\TileHelper.cs" />
     <Compile Include="Graphics\IColorable.cs" />
     <Compile Include="Graphics\IMovable.cs" />
