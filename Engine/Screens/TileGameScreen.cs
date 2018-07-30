@@ -184,7 +184,7 @@ namespace Engine.Screens
 
             _spriteBatch.End();
         }
-
+         
 
         private void HandleInputGameTypeScatter()
         {

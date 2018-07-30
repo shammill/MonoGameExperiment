@@ -9,7 +9,7 @@ using Engine.Screens.Transitions;
 using Microsoft.Xna.Framework.Input;
 using Engine.Input;
 using Engine.BitmapFonts;
-using Engine.Graphics;
+using Engine.Graphics.Fonts;
 
 namespace Engine.Screens
 {
@@ -25,16 +25,21 @@ namespace Engine.Screens
         float oneThirdScreenSize = 500f;
         float newScale = 1f;
         float scaledWidth = 500f;
+        string newGameText = "NEW GAME";
 
 
         public MainMenuScreen(Game game) : base(game)
         {
             menuItems = new List<string>();
+            Font = Content.Load<BitmapFont>("Fonts/montserrat-32");
+            FontPackage fontPackage = new FontPackage();
+            fontPackage = FontHelper.GetFont(1f);
+
             centerPoint = GraphicsDevice.Viewport.Width / 2f;
             oneThirdScreenSize = GraphicsDevice.Viewport.Width / 3f;
-            Font = Content.Load<BitmapFont>("Fonts/montserrat-32");
-            newScale = oneThirdScreenSize / Font.GetStringRectangle("NEW GAME").Width;
-            textHalfLenth = (Font.GetStringRectangle("NEW GAME").Width * newScale) / 2f;
+
+            newScale = oneThirdScreenSize / Font.GetStringRectangle(newGameText).Width;
+            textHalfLenth = (Font.GetStringRectangle(newGameText).Width * newScale) / 2f;
         }
 
         public override void LoadContent()
@@ -54,7 +59,7 @@ namespace Engine.Screens
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             _spriteBatch.Draw(_background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
-            _spriteBatch.DrawString(Font, "NEW GAME", new Vector2(centerPoint - textHalfLenth, 500), Color.White, 0f, Vector2.Zero, newScale, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(Font, newGameText, new Vector2(centerPoint - textHalfLenth, 500), Color.White, 0f, Vector2.Zero, newScale, SpriteEffects.None, 0f);
             _spriteBatch.End();
         }
 
