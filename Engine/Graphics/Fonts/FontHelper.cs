@@ -23,9 +23,9 @@ namespace Engine.Graphics.Fonts
     /// </summary>
     public static class FontHelper
     {
-        public static FontPackage GetFont(float proposed)
+        public static FontPackage GetFont(List<BitmapFont> fontList, float proposed)
         {
-
+            throw new NotImplementedException();
             return new FontPackage();
         }
 

@@ -17,6 +17,8 @@ namespace Engine.Screens
     {
         private SpriteBatch _spriteBatch;
         private Texture2D _background;
+        private List<BitmapFont> _fontList = new List<BitmapFont>();
+
         MouseState oldMouseState;
         List<string> menuItems;
         float centerPoint = 0f;
@@ -31,9 +33,6 @@ namespace Engine.Screens
         public MainMenuScreen(Game game) : base(game)
         {
             menuItems = new List<string>();
-            Font = Content.Load<BitmapFont>("Fonts/montserrat-32");
-            FontPackage fontPackage = new FontPackage();
-            fontPackage = FontHelper.GetFont(1f);
 
             centerPoint = GraphicsDevice.Viewport.Width / 2f;
             oneThirdScreenSize = GraphicsDevice.Viewport.Width / 3f;
@@ -47,6 +46,20 @@ namespace Engine.Screens
             base.LoadContent();
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _background = Content.Load<Texture2D>("Images/MenuBackground");
+
+            //Load font range for scaling.
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-28"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-30"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-32"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-34"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-36"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-38"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-40"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-42"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-44"));
+
+            FontPackage fontPackage = new FontPackage();
+            fontPackage = FontHelper.GetFont(_fontList, newScale);
         }
 
         public override void Update(GameTime gameTime)

@@ -9,6 +9,7 @@
 /compress:False
 
 #-------------------------------- References --------------------------------#
+
 /reference:../../packages/MonoGame.Extended.Content.Pipeline/netstandard2.0/MonoGame.Extended.Content.Pipeline.dll
 
 #---------------------------------- Content ---------------------------------#
@@ -100,4 +101,49 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Fonts/montserrat-32_0.png
+
+#begin Fonts/arial-28.fnt
+/importer:BitmapFontImporter
+/processor:BitmapFontProcessor
+/build:Fonts/arial-28.fnt
+
+#begin Fonts/arial-30.fnt
+/importer:BitmapFontImporter
+/processor:BitmapFontProcessor
+/build:Fonts/arial-30.fnt
+
+#begin Fonts/arial-32.fnt
+/importer:BitmapFontImporter
+/processor:BitmapFontProcessor
+/build:Fonts/arial-32.fnt
+
+#begin Fonts/arial-34.fnt
+/importer:BitmapFontImporter
+/processor:BitmapFontProcessor
+/build:Fonts/arial-34.fnt
+
+#begin Fonts/arial-36.fnt
+/importer:BitmapFontImporter
+/processor:BitmapFontProcessor
+/build:Fonts/arial-36.fnt
+
+#begin Fonts/arial-38.fnt
+/importer:BitmapFontImporter
+/processor:BitmapFontProcessor
+/build:Fonts/arial-38.fnt
+
+#begin Fonts/arial-40.fnt
+/importer:BitmapFontImporter
+/processor:BitmapFontProcessor
+/build:Fonts/arial-40.fnt
+
+#begin Fonts/arial-42.fnt
+/importer:BitmapFontImporter
+/processor:BitmapFontProcessor
+/build:Fonts/arial-42.fnt
+
+#begin Fonts/arial-44.fnt
+/importer:BitmapFontImporter
+/processor:BitmapFontProcessor
+/build:Fonts/arial-44.fnt
 
