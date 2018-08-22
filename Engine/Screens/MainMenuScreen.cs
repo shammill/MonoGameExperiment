@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Engine.Input;
 using Engine.BitmapFonts;
 using Engine.Graphics.Fonts;
+using Engine.Graphics;
 
 namespace Engine.Screens
 {
@@ -21,24 +22,26 @@ namespace Engine.Screens
 
         MouseState oldMouseState;
         List<string> menuItems;
-        float centerPoint = 0f;
-        BitmapFont Font;
-        float textHalfLenth;
-        float oneThirdScreenSize = 500f;
-        float newScale = 1f;
-        float scaledWidth = 500f;
+
+
+        Point centerPoint = new Point();
+
+        // Font Goodness
+        FontPackage fontPackage = new FontPackage();
+        float proposedTextHeight = 0.1f; // percentage of scereen height 0.1f = 10%;
         string newGameText = "NEW GAME";
+        float newGameTextHalfLenth = 0f;
+        string loadGameText = "LOAD GAME";
+        string optionsText = "OPTIONS";
+        string exitText = "EXIT";
 
 
         public MainMenuScreen(Game game) : base(game)
         {
             menuItems = new List<string>();
 
-            centerPoint = GraphicsDevice.Viewport.Width / 2f;
-            oneThirdScreenSize = GraphicsDevice.Viewport.Width / 3f;
-
-            newScale = oneThirdScreenSize / Font.GetStringRectangle(newGameText).Width;
-            textHalfLenth = (Font.GetStringRectangle(newGameText).Width * newScale) / 2f;
+            centerPoint.X = (int)(GraphicsDevice.Viewport.Width / 2f);
+            centerPoint.Y = (int)(GraphicsDevice.Viewport.Height / 2f);           
         }
 
         public override void LoadContent()
@@ -58,8 +61,10 @@ namespace Engine.Screens
             _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-42"));
             _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-44"));
 
-            FontPackage fontPackage = new FontPackage();
-            fontPackage = FontHelper.GetFont(_fontList, newScale);
+            fontPackage = FontHelper.GetFont(_fontList, proposedTextHeight, GraphicsDevice.Viewport.Bounds);
+
+            RectangleF newGameRectangle = fontPackage.Font.GetStringRectangle(newGameText);
+            newGameTextHalfLenth = newGameRectangle.Width / 2f;
         }
 
         public override void Update(GameTime gameTime)
@@ -72,7 +77,7 @@ namespace Engine.Screens
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             _spriteBatch.Draw(_background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
-            _spriteBatch.DrawString(Font, newGameText, new Vector2(centerPoint - textHalfLenth, 500), Color.White, 0f, Vector2.Zero, newScale, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(fontPackage.Font, newGameText, new Vector2(centerPoint.X - newGameTextHalfLenth, centerPoint.Y), Color.White, 0f, Vector2.Zero, fontPackage.Scale, SpriteEffects.None, 0f);
             _spriteBatch.End();
         }
 

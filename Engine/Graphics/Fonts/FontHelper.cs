@@ -15,18 +15,34 @@ namespace Engine.Graphics.Fonts
 {
     public class FontPackage
     {
-        public BitmapFont font { get; set; }
-        public float scale { get; set; }
+        public BitmapFont Font { get; set; }
+        public float Scale { get; set; }
     }
+
     /// <summary>
     /// Helps choose a font closest to the required size/scale.
     /// </summary>
     public static class FontHelper
     {
-        public static FontPackage GetFont(List<BitmapFont> fontList, float proposed)
-        {
-            throw new NotImplementedException();
-            return new FontPackage();
+        public static FontPackage GetFont(List<BitmapFont> fontList, float proposedHeightPercentage, Rectangle screenSpace)
+        { 
+            float proposedHeight = screenSpace.Height * proposedHeightPercentage;
+
+            BitmapFont actualFont = null;
+            float actualScale = 1f;
+
+            float previousScale = 0f;
+            float keptScale = 0f;
+            foreach (BitmapFont font in fontList)
+            {
+                RectangleF rect = font.GetStringRectangle("X");
+                float differenceWithProposed = rect.Height;
+                float scale = rect.Height / proposedHeight;
+
+                if (scale -)
+            }
+
+            return new FontPackage() { Font = actualFont, Scale = actualScale };
         }
 
     }
