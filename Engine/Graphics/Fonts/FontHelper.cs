@@ -29,17 +29,25 @@ namespace Engine.Graphics.Fonts
             float proposedHeight = screenSpace.Height * proposedHeightPercentage;
 
             BitmapFont actualFont = null;
-            float actualScale = 1f;
+            float actualScale = 0f;
 
-            float previousScale = 0f;
-            float keptScale = 0f;
+            float bestHeightDifferenceFound = 1000f;
             foreach (BitmapFont font in fontList)
             {
                 RectangleF rect = font.GetStringRectangle("X");
                 float differenceWithProposed = rect.Height;
-                float scale = rect.Height / proposedHeight;
 
-                if (scale -)
+                if (rect.Height > proposedHeight)
+                    differenceWithProposed = rect.Height - proposedHeight;
+                else if (rect.Height < proposedHeight)
+                    differenceWithProposed = proposedHeight - rect.Height;
+
+                if (bestHeightDifferenceFound > differenceWithProposed)
+                {
+                    actualFont = font;
+                    bestHeightDifferenceFound = differenceWithProposed;
+                    actualScale = proposedHeight / rect.Height;
+                }
             }
 
             return new FontPackage() { Font = actualFont, Scale = actualScale };
