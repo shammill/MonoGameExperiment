@@ -51,6 +51,10 @@ namespace Engine.Screens
             _background = Content.Load<Texture2D>("Images/MenuBackground");
 
             //Load font range for scaling.
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-20"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-22"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-24"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-26"));
             _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-28"));
             _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-30"));
             _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-32"));
@@ -60,6 +64,23 @@ namespace Engine.Screens
             _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-40"));
             _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-42"));
             _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-44"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-46"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-48"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-50"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-52"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-54"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-56"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-58"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-60"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-62"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-64"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-66"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-68"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-70"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-72"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-74"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-76"));
+            _fontList.Add(Content.Load<BitmapFont>("Fonts/arial-78"));
 
             fontPackage = FontHelper.GetFont(_fontList, proposedTextHeight, GraphicsDevice.Viewport.Bounds);
 
@@ -76,7 +97,7 @@ namespace Engine.Screens
         {
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-            _spriteBatch.Draw(_background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+            //_spriteBatch.Draw(_background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
             _spriteBatch.DrawString(fontPackage.Font, newGameText, new Vector2(centerPoint.X - newGameTextHalfLenth, centerPoint.Y), Color.White, 0f, Vector2.Zero, fontPackage.Scale, SpriteEffects.None, 0f);
             _spriteBatch.End();
         }

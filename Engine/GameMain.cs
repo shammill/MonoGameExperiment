@@ -98,7 +98,7 @@ namespace Engine
             //};
 
             //screenManager.LoadScreen(new SplashScreen(this), new FadeTransition(GraphicsDevice, Color.Black, 0.5f));
-            screenManager.LoadScreen(new TileGameScreen(this, new ShuffleGameSettings()), new FadeTransition(GraphicsDevice, Color.Black, 0.5f));
+            screenManager.LoadScreen(new MainMenuScreen(this), new FadeTransition(GraphicsDevice, Color.Black, 0.5f));
         }
 
         /// <summary>
