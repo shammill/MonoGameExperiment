@@ -29,11 +29,11 @@ namespace Engine.Screens
         // Font Goodness
         FontPackage fontPackage = new FontPackage();
         float proposedTextHeight = 0.1f; // percentage of scereen height 0.1f = 10%;
-        string newGameText = "NEW GAME";
-        float newGameTextHalfLenth = 0f;
-        string loadGameText = "LOAD GAME";
-        string optionsText = "OPTIONS";
-        string exitText = "EXIT";
+
+        private Textbox newGame = new Textbox() { Location = new Vector2(), Value = "NEW GAME" };
+        private Textbox loadGame = new Textbox() { Location = new Vector2(), Value = "LOAD GAME" };
+        private Textbox options = new Textbox() { Location = new Vector2(), Value = "OPTIONS" };
+        private Textbox exit = new Textbox() { Location = new Vector2(), Value = "EXIT" };
 
 
         public MainMenuScreen(Game game) : base(game)
@@ -84,8 +84,26 @@ namespace Engine.Screens
 
             fontPackage = FontHelper.GetFont(_fontList, proposedTextHeight, GraphicsDevice.Viewport.Bounds);
 
-            RectangleF newGameRectangle = fontPackage.Font.GetStringRectangle(newGameText);
-            newGameTextHalfLenth = newGameRectangle.Width / 2f;
+            RectangleF newGameRectangle = fontPackage.Font.GetStringRectangle(newGame.Value);
+            float centerPointNewGame = GraphicsDevice.Viewport.Bounds.Width / 2f  - (newGameRectangle.Width / 2f);
+            float verticalPointNewGame = GraphicsDevice.Viewport.Bounds.Height * 0.25f;
+            newGame.Location = new Vector2(centerPointNewGame, verticalPointNewGame);
+
+            RectangleF loadGameRectangle = fontPackage.Font.GetStringRectangle(loadGame.Value);
+            float centerPointLoadGame = GraphicsDevice.Viewport.Bounds.Width / 2f - (loadGameRectangle.Width / 2f);
+            float verticalPointLoadGame = verticalPointNewGame + (newGameRectangle.Height * 1.5f);
+            loadGame.Location = new Vector2(centerPointLoadGame, verticalPointLoadGame);
+
+            RectangleF optionsRectangle = fontPackage.Font.GetStringRectangle(options.Value);
+            float centerPointOptions = GraphicsDevice.Viewport.Bounds.Width / 2f - (optionsRectangle.Width / 2f);
+            float verticalPointOptions = verticalPointLoadGame + (newGameRectangle.Height * 1.5f);
+            options.Location = new Vector2(centerPointOptions, verticalPointOptions);
+
+            RectangleF exitRectangle = fontPackage.Font.GetStringRectangle(exit.Value);
+            float centerPointExit = GraphicsDevice.Viewport.Bounds.Width / 2f - (exitRectangle.Width / 2f);
+            float verticalPointExit = verticalPointOptions + (newGameRectangle.Height * 1.5f);
+            exit.Location = new Vector2(centerPointExit, verticalPointExit);
+
         }
 
         public override void Update(GameTime gameTime)
@@ -98,7 +116,10 @@ namespace Engine.Screens
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             //_spriteBatch.Draw(_background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
-            _spriteBatch.DrawString(fontPackage.Font, newGameText, new Vector2(centerPoint.X - newGameTextHalfLenth, centerPoint.Y), Color.White, 0f, Vector2.Zero, fontPackage.Scale, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(fontPackage.Font, newGame.Value, newGame.Location, Color.White, 0f, Vector2.Zero, fontPackage.Scale, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(fontPackage.Font, loadGame.Value, loadGame.Location, Color.White, 0f, Vector2.Zero, fontPackage.Scale, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(fontPackage.Font, options.Value, options.Location, Color.White, 0f, Vector2.Zero, fontPackage.Scale, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(fontPackage.Font, exit.Value, exit.Location, Color.White, 0f, Vector2.Zero, fontPackage.Scale, SpriteEffects.None, 0f);
             _spriteBatch.End();
         }
 
