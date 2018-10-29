@@ -11,6 +11,7 @@ namespace Engine.Graphics.Fonts
     {
         public string Value { get; set; }
         public Vector2 Location { get; set; }
+        public RectangleF BoundingBox { get; set; }
 
     }
 }

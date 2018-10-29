@@ -21,7 +21,7 @@ namespace Engine.Screens
         private List<BitmapFont> _fontList = new List<BitmapFont>();
 
         MouseState oldMouseState;
-        List<string> menuItems;
+        List<Textbox> menuItems;
 
 
         Point centerPoint = new Point();
@@ -38,7 +38,7 @@ namespace Engine.Screens
 
         public MainMenuScreen(Game game) : base(game)
         {
-            menuItems = new List<string>();
+            menuItems = new List<Textbox>() { newGame, loadGame, options, exit };
 
             centerPoint.X = (int)(GraphicsDevice.Viewport.Width / 2f);
             centerPoint.Y = (int)(GraphicsDevice.Viewport.Height / 2f);           
@@ -84,24 +84,24 @@ namespace Engine.Screens
 
             fontPackage = FontHelper.GetFont(_fontList, proposedTextHeight, GraphicsDevice.Viewport.Bounds);
 
-            RectangleF newGameRectangle = fontPackage.Font.GetStringRectangle(newGame.Value);
-            float centerPointNewGame = GraphicsDevice.Viewport.Bounds.Width / 2f  - (newGameRectangle.Width / 2f);
+            newGame.BoundingBox = fontPackage.Font.GetStringRectangle(newGame.Value);
+            float centerPointNewGame = GraphicsDevice.Viewport.Bounds.Width / 2f  - (newGame.BoundingBox.Width / 2f);
             float verticalPointNewGame = GraphicsDevice.Viewport.Bounds.Height * 0.25f;
             newGame.Location = new Vector2(centerPointNewGame, verticalPointNewGame);
 
             RectangleF loadGameRectangle = fontPackage.Font.GetStringRectangle(loadGame.Value);
             float centerPointLoadGame = GraphicsDevice.Viewport.Bounds.Width / 2f - (loadGameRectangle.Width / 2f);
-            float verticalPointLoadGame = verticalPointNewGame + (newGameRectangle.Height * 1.5f);
+            float verticalPointLoadGame = verticalPointNewGame + (newGame.BoundingBox.Height * 1.5f);
             loadGame.Location = new Vector2(centerPointLoadGame, verticalPointLoadGame);
 
             RectangleF optionsRectangle = fontPackage.Font.GetStringRectangle(options.Value);
             float centerPointOptions = GraphicsDevice.Viewport.Bounds.Width / 2f - (optionsRectangle.Width / 2f);
-            float verticalPointOptions = verticalPointLoadGame + (newGameRectangle.Height * 1.5f);
+            float verticalPointOptions = verticalPointLoadGame + (newGame.BoundingBox.Height * 1.5f);
             options.Location = new Vector2(centerPointOptions, verticalPointOptions);
 
             RectangleF exitRectangle = fontPackage.Font.GetStringRectangle(exit.Value);
             float centerPointExit = GraphicsDevice.Viewport.Bounds.Width / 2f - (exitRectangle.Width / 2f);
-            float verticalPointExit = verticalPointOptions + (newGameRectangle.Height * 1.5f);
+            float verticalPointExit = verticalPointOptions + (newGame.BoundingBox.Height * 1.5f);
             exit.Location = new Vector2(centerPointExit, verticalPointExit);
 
         }
@@ -128,7 +128,17 @@ namespace Engine.Screens
             var mouseState = Mouse.GetState();
             if (mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Released)
             {
-                ScreenManager.LoadScreen(new TileGameScreen(Game, new Entities.SwapperGameSettings()), new FadeTransition(GraphicsDevice, Color.Black, 2f));
+                if (newGame.BoundingBox.Contains(mouseState.Position))
+                    ScreenManager.LoadScreen(new TileGameScreen(Game, new Entities.SwapperGameSettings()), new FadeTransition(GraphicsDevice, Color.Black, 2f));
+
+                //if (loadGame.BoundingBox.Contains(mouseState.Position))
+                   
+
+                //if (options.BoundingBox.Contains(mouseState.Position))
+                   
+
+                if (exit.BoundingBox.Contains(mouseState.Position))
+                    Environment.Exit(0);
             }
 
             oldMouseState = mouseState;
