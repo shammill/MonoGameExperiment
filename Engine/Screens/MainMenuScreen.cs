@@ -84,10 +84,12 @@ namespace Engine.Screens
 
             fontPackage = FontHelper.GetFont(_fontList, proposedTextHeight, GraphicsDevice.Viewport.Bounds);
 
-            newGame.BoundingBox = fontPackage.Font.GetStringRectangle(newGame.Value);
-            float centerPointNewGame = GraphicsDevice.Viewport.Bounds.Width / 2f  - (newGame.BoundingBox.Width / 2f);
+            RectangleF newGameRectangle = fontPackage.Font.GetStringRectangle(newGame.Value);
+            float centerPointNewGame = GraphicsDevice.Viewport.Bounds.Width / 2f  - (newGameRectangle.Width / 2f);
             float verticalPointNewGame = GraphicsDevice.Viewport.Bounds.Height * 0.25f;
             newGame.Location = new Vector2(centerPointNewGame, verticalPointNewGame);
+            newGameRectangle.Position = new Point2(newGame.Location.X, newGame.Location.Y);
+            newGame.BoundingBox = newGameRectangle;
 
             RectangleF loadGameRectangle = fontPackage.Font.GetStringRectangle(loadGame.Value);
             float centerPointLoadGame = GraphicsDevice.Viewport.Bounds.Width / 2f - (loadGameRectangle.Width / 2f);
@@ -103,7 +105,8 @@ namespace Engine.Screens
             float centerPointExit = GraphicsDevice.Viewport.Bounds.Width / 2f - (exitRectangle.Width / 2f);
             float verticalPointExit = verticalPointOptions + (newGame.BoundingBox.Height * 1.5f);
             exit.Location = new Vector2(centerPointExit, verticalPointExit);
-
+            exitRectangle.Position = new Point2(exit.Location.X, exit.Location.Y);
+            exit.BoundingBox = exitRectangle;
         }
 
         public override void Update(GameTime gameTime)
@@ -120,6 +123,7 @@ namespace Engine.Screens
             _spriteBatch.DrawString(fontPackage.Font, loadGame.Value, loadGame.Location, Color.White, 0f, Vector2.Zero, fontPackage.Scale, SpriteEffects.None, 0f);
             _spriteBatch.DrawString(fontPackage.Font, options.Value, options.Location, Color.White, 0f, Vector2.Zero, fontPackage.Scale, SpriteEffects.None, 0f);
             _spriteBatch.DrawString(fontPackage.Font, exit.Value, exit.Location, Color.White, 0f, Vector2.Zero, fontPackage.Scale, SpriteEffects.None, 0f);
+;
             _spriteBatch.End();
         }
 
