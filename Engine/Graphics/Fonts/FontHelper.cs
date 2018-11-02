@@ -19,6 +19,20 @@ namespace Engine.Graphics.Fonts
         public float Scale { get; set; }
     }
 
+    public enum VerticalPosition
+    {
+        Top = 0,
+        Centered = 1,
+        Bottom = 2,
+    }
+
+    public enum HorizontalPosition
+    {
+        Left = 0,
+        Centered = 1,
+        Right = 2,
+    }
+
     /// <summary>
     /// Helps choose a font closest to the required size/scale.
     /// </summary>
@@ -52,6 +66,37 @@ namespace Engine.Graphics.Fonts
 
             return new FontPackage() { Font = actualFont, Scale = actualScale };
         }
+
+        public static Textbox SetTextBoxPosition(Textbox tb, FontPackage fontPackage, Rectangle viewportBounds, VerticalPosition verticalPosition, float verticalDistance, HorizontalPosition horizontalPosition, float horizontalDistance)
+        {
+            RectangleF textBoxRectangle = fontPackage.Font.GetStringRectangle(tb.Value);
+
+            float xPosition = 0f;
+            if (horizontalPosition.Equals(HorizontalPosition.Centered))
+                xPosition = viewportBounds.Width / 2f - (textBoxRectangle.Width / 2f);
+
+            if (horizontalPosition.Equals(HorizontalPosition.Left))
+                xPosition = 0f + viewportBounds.Width * horizontalDistance;
+
+            if (horizontalPosition.Equals(HorizontalPosition.Right))
+                xPosition = viewportBounds.Width - (textBoxRectangle.Width) - viewportBounds.Width * horizontalDistance;
+
+
+            float yPosition = viewportBounds.Height * 0.25f;
+            tb.Location = new Vector2(xPosition, yPosition);
+
+
+            textBoxRectangle.Position = new Point2(tb.Location.X, tb.Location.Y);
+            tb.BoundingBox = textBoxRectangle;
+
+            return tb;
+        }
+
+
+
+
+
+
 
     }
 }

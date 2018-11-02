@@ -28,7 +28,7 @@ namespace Engine.Screens
 
         // Font Goodness
         FontPackage fontPackage = new FontPackage();
-        float proposedTextHeight = 0.1f; // percentage of scereen height 0.1f = 10%;
+        float proposedTextHeight = 0.1f; // percentage of screen height 0.1f = 10%;
 
         private Textbox newGame = new Textbox() { Location = new Vector2(), Value = "NEW GAME" };
         private Textbox loadGame = new Textbox() { Location = new Vector2(), Value = "LOAD GAME" };
@@ -95,11 +95,15 @@ namespace Engine.Screens
             float centerPointLoadGame = GraphicsDevice.Viewport.Bounds.Width / 2f - (loadGameRectangle.Width / 2f);
             float verticalPointLoadGame = verticalPointNewGame + (newGame.BoundingBox.Height * 1.5f);
             loadGame.Location = new Vector2(centerPointLoadGame, verticalPointLoadGame);
+            loadGameRectangle.Position = new Point2(exit.Location.X, exit.Location.Y);
+            loadGame.BoundingBox = loadGameRectangle;
 
             RectangleF optionsRectangle = fontPackage.Font.GetStringRectangle(options.Value);
             float centerPointOptions = GraphicsDevice.Viewport.Bounds.Width / 2f - (optionsRectangle.Width / 2f);
             float verticalPointOptions = verticalPointLoadGame + (newGame.BoundingBox.Height * 1.5f);
             options.Location = new Vector2(centerPointOptions, verticalPointOptions);
+            optionsRectangle.Position = new Point2(exit.Location.X, exit.Location.Y);
+            options.BoundingBox = optionsRectangle;
 
             RectangleF exitRectangle = fontPackage.Font.GetStringRectangle(exit.Value);
             float centerPointExit = GraphicsDevice.Viewport.Bounds.Width / 2f - (exitRectangle.Width / 2f);
@@ -133,7 +137,7 @@ namespace Engine.Screens
             if (mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Released)
             {
                 if (newGame.BoundingBox.Contains(mouseState.Position))
-                    ScreenManager.LoadScreen(new TileGameScreen(Game, new Entities.SwapperGameSettings()), new FadeTransition(GraphicsDevice, Color.Black, 2f));
+                    ScreenManager.LoadScreen(new NewGameScreen(Game), new FadeTransition(GraphicsDevice, Color.Black, 1f));
 
                 //if (loadGame.BoundingBox.Contains(mouseState.Position))
                    

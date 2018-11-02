@@ -84,6 +84,8 @@ namespace Engine.Screens
 
             fontPackage = FontHelper.GetFont(_fontList, proposedTextHeight, GraphicsDevice.Viewport.Bounds);
 
+            newGame = FontHelper.SetTextBoxPosition(newGame, fontPackage, GraphicsDevice.Viewport.Bounds, VerticalPosition.Centered, 0f, HorizontalPosition.Centered, 0f);
+
             RectangleF newGameRectangle = fontPackage.Font.GetStringRectangle(newGame.Value);
             float centerPointNewGame = GraphicsDevice.Viewport.Bounds.Width / 2f  - (newGameRectangle.Width / 2f);
             float verticalPointNewGame = GraphicsDevice.Viewport.Bounds.Height * 0.25f;
@@ -142,7 +144,7 @@ namespace Engine.Screens
                    
 
                 if (exit.BoundingBox.Contains(mouseState.Position))
-                    Environment.Exit(0);
+                    ScreenManager.LoadScreen(new MainMenuScreen(Game), new FadeTransition(GraphicsDevice, Color.Black, 1f));
             }
 
             oldMouseState = mouseState;
